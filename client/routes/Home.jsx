@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Map from "./Map";
+import GoogleMapComponent from "./GoogleMapComponent";
 
 export default function Home() {
   const [parks, setParks] = useState([]);
@@ -7,39 +8,28 @@ export default function Home() {
   const [error, setError] = useState("");
   const [selectedPark, setSelectedPark] = useState(null);
 
-  useEffect(() => {
-    setError("");
-  }, [newPark]);
+  const [searchResultsList, setSearchResultsList] = useState([]); //this is the main state used for the logic of the app
+  const [highlightedPark, setHighlightedPark] = useState("");
 
-  const getParks = async () => {
-    try {
-      const response = await fetch(`/api/search/${newPark}`);
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message);
-      setParks(data.businesses);
-    } catch (err) {
-      setError("Oops! Looks like this park doesn't exist.");
-    }
-  };
+  const [
+    selectedToShowPhotoAndOpeningHours,
+    setSelectedToShowPhotoAndOpeningHours,
+  ] = useState();
 
-  const handleChange = (event) => {
-    setNewPark(event.target.value);
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    getParks();
+  const changeSearchResultsList = (newSearchResultsList) => {
+    setSearchResultsList(newSearchResultsList);
   };
 
   //ADD the park to my wishlist
   async function addToWishlist(e, park) {
     const body = {
-      id: park.id,
+      id: park.place_id,
       name: park.name,
-      image_url: park.image_url,
-      url: park.url,
-      latitude: park.coordinates.latitude,
-      longitude: park.coordinates.longitude,
+      rating: park.rating,
+      address: park.formatted_address,
+      image_url: park.photos[0].getUrl(),
+      latitude: park.geometry.location.lat(),
+      longitude: park.geometry.location.lng(),
     };
 
     e.preventDefault();
@@ -58,8 +48,10 @@ export default function Home() {
       if (!response.ok) {
         console.log("Response was not ok");
         throw new Error(data.message);
+      } else {
+        alert(`${park.name} has been added to your wishlist!`);
       }
-      getParks();
+      // getParks();
     } catch (err) {
       console.log("Error adding park to wishlist: " + err);
     }
@@ -70,69 +62,105 @@ export default function Home() {
     event.currentTarget.disabled = true;
   };
 
-  const showParkOnMap = (park) => {
-    setSelectedPark(park);
+  const changeHighlightedPark = (locationDetails) => {
+    console.log(locationDetails);
+    setHighlightedPark(locationDetails);
+  };
+
+  const showPhotoAndOpeningHours = (id) => {
+    console.log(id);
+    !selectedToShowPhotoAndOpeningHours?.[id]
+      ? setSelectedToShowPhotoAndOpeningHours({
+          [id]: true,
+        })
+      : setSelectedToShowPhotoAndOpeningHours({
+          [id]: false,
+        });
   };
 
   return (
     <div className="container">
       <h3 className="text-center">My Theme Park Database</h3>
 
-      {/* SEARCH FOR LOCATION OR PARK */}
-
-      <form onSubmit={handleSubmit}>
-        <div className="input-group">
-          <input
-            placeholder="What park or location are you looking for?"
-            type="text"
-            value={newPark}
-            onChange={handleChange}
-            className="form-control"
-          />
-          <button type="submit" className="search-button">
-            Search
-          </button>
-        </div>
-      </form>
       {error && <div className="error-message">{error}</div>}
 
-      {/* DISPLAY THE RESULTS */}
+      <GoogleMapComponent
+        changeSearchResultsList={changeSearchResultsList}
+        searchResultsList={searchResultsList}
+        highlightedPark={highlightedPark}
+        setHighlightedPark={setHighlightedPark}
+      />
 
-      <div className="list-group mt-3 ">
-        {parks.map((park) => (
-          <div
-            key={park.id}
-            className=" list-group-item d-flex align-items-start justify-content-between"
-          >
-            {park.name}
-            <div className=" align-items-start justify-content-between">
-              <div onClick={() => showParkOnMap(park)}>
-                <button className=" btn btn-outline-success btn-sm">
-                  <i className=" fa-solid fa-location-dot"></i>
-                </button>
+      <div className="list-group m-5">
+        {searchResultsList && (
+          <>
+            <h4 className="text-center mb-3">
+              Check out these parks based on your search
+            </h4>
+            {searchResultsList?.map((locationDetails) => (
+              <div key={locationDetails.place_id} className="list-group-item">
+                <div className="d-flex justify-content-between align-items-center">
+                  <p
+                    onClick={() => changeHighlightedPark(locationDetails)}
+                    className={
+                      selectedToShowPhotoAndOpeningHours ? "fw-bold" : ""
+                    }
+                  >
+                    {locationDetails.name}
+                  </p>
 
-                <a href={park.url} target="_blank">
-                  <button className=" btn btn-outline-info btn-sm">
-                    <i className="  fa-solid fa-circle-info"></i>
-                  </button>
-                </a>
-                <button
-                  className=" btn btn-outline-warning btn-sm"
-                  type="submit"
-                  onClick={(e) => {
-                    addToWishlist(e, park);
-                    disableButton(e);
-                  }}
-                >
-                  <i className="  fa-solid fa-star"></i>
-                </button>
+                  <div>
+                    <div className="btn btn-dark btn-sm rating">
+                      Rating {locationDetails.rating}
+                    </div>
+
+                    <button
+                      className=" btn btn-outline-success btn-sm"
+                      onClick={() => changeHighlightedPark(locationDetails)}
+                    >
+                      <i className=" fa-solid fa-location-dot"></i>
+                    </button>
+
+                    <button
+                      className=" btn btn-outline-info btn-sm"
+                      onClick={() =>
+                        showPhotoAndOpeningHours(locationDetails.place_id)
+                      }
+                    >
+                      <i className="  fa-solid fa-circle-info"></i>
+                    </button>
+                    <button
+                      className=" btn btn-outline-warning btn-sm"
+                      type="submit"
+                      onClick={(e) => {
+                        addToWishlist(e, locationDetails);
+                        disableButton(e);
+                      }}
+                    >
+                      <i className="fa-solid fa-star"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  {selectedToShowPhotoAndOpeningHours?.[
+                    locationDetails.place_id
+                  ] &&
+                    locationDetails?.photos && (
+                      <div className="d-flex justify-content-end mt-2 mb-2">
+                        <img
+                          src={locationDetails?.photos?.[0]?.getUrl()}
+                          alt=""
+                          height="250px"
+                        />
+                      </div>
+                    )}
+                </div>
               </div>
-            </div>
-          </div>
-        ))}
+            ))}
+          </>
+        )}
       </div>
-      {/* SHOW THEM ON THE MAP */}
-      <Map parks={parks} selectedPark={selectedPark} />
     </div>
   );
 }

@@ -10,7 +10,7 @@ const con = mysql.createConnection({
   host: DB_HOST || "127.0.0.1",
   user: DB_USER || "root",
   password: DB_PASS,
-  database: DB_NAME || "facebook",
+  database: DB_NAME || "parks",
   multipleStatements: true,
 });
 
@@ -19,7 +19,7 @@ con.connect(function (err) {
   console.log("Connected!");
 
   let sql =
-    "DROP TABLE if exists parks; CREATE TABLE parks(id INT NOT NULL AUTO_INCREMENT, yelp_id VARCHAR(255) not null, name VARCHAR(255) not null, image_url VARCHAR(255) not null, url VARCHAR(255) not null, latitude VARCHAR(255) not null, longitude VARCHAR(255) not null, PRIMARY KEY (id));";
+    "DROP TABLE if exists parks; CREATE TABLE parks(id INT NOT NULL AUTO_INCREMENT, google_id VARCHAR(255) not null, name VARCHAR(255) not null, rating VARCHAR(255) not null, address TEXT not null, image_url TEXT not null, latitude VARCHAR(255) not null, longitude VARCHAR(255) not null, PRIMARY KEY (id));";
   con.query(sql, function (err, result) {
     if (err) throw err;
     console.log("Table creation `parks` was successful!");
