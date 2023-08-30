@@ -4,12 +4,15 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 
 export default function Login() {
   return (
     <div>
       <Container maxWidth="md" align="center">
-        <h1>Log in</h1>
+        <Typography variant="h2" gutterBottom>
+          Log in
+        </Typography>
         <Box
           component="form"
           sx={{
@@ -38,7 +41,7 @@ export default function Login() {
           Log in
         </Button>
         <Box sx={{ mt: 2 }}>
-          <p>Not a member? Sign up here!</p>
+          <Typography>Not a member? Sign up here!</Typography>
         </Box>
       </Container>
 
