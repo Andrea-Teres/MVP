@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Map from "./Map";
-import GoogleMapComponent from "./GoogleMapComponent";
+import Map from "/components/Map";
+import GoogleMapComponent from "../components/GoogleMapComponent";
+import NavBar from "../components/NavBar";
 
 export default function Home() {
   const [parks, setParks] = useState([]);

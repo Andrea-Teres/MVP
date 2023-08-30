@@ -7,7 +7,7 @@ import {
   InfoWindowF,
 } from "@react-google-maps/api";
 
-import "./GoogleMapComponent.css";
+import "../styles/GoogleMapComponent.css";
 const { VITE_GOOGLE_API_KEY } = import.meta.env;
 
 //searchResultsList is the main state that hold the logic, it is passed as a prop from the Home page
