@@ -1,5 +1,7 @@
 # My Theme Park Database
 
+((working on AUTHENTICATION))
+
 ## SETUP
 
 - BACKEND: In your console, cd into the folder "mvp-FS26-Andrea-Teres". Run "npm start".
