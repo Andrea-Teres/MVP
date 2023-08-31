@@ -1,5 +1,17 @@
 require("dotenv").config();
+
 const mysql = require("mysql");
+
+const file = process.argv[2];
+console.log("file is: ", file);
+
+if (!file) {
+  console.error("Missing migration file argument.");
+  process.exit(1);
+}
+
+const fs = require("fs");
+const migrationSQL = fs.readFileSync(file).toString();
 
 const DB_HOST = process.env.DB_HOST;
 const DB_USER = process.env.DB_USER;
@@ -10,7 +22,7 @@ const con = mysql.createConnection({
   host: DB_HOST || "127.0.0.1",
   user: DB_USER || "root",
   password: DB_PASS,
-  database: DB_NAME || "parks",
+  database: DB_NAME,
   multipleStatements: true,
 });
 
@@ -18,13 +30,9 @@ con.connect(function (err) {
   if (err) throw err;
   console.log("Connected!");
 
-  let sql =
-    "DROP TABLE if exists parks; CREATE TABLE parks(id INT NOT NULL AUTO_INCREMENT, google_id VARCHAR(255) not null, name VARCHAR(255) not null, rating VARCHAR(255) not null, address TEXT not null, image_url TEXT not null, latitude VARCHAR(255) not null, longitude VARCHAR(255) not null, PRIMARY KEY (id));";
-  con.query(sql, function (err, result) {
+  con.query(migrationSQL, function (err, result) {
     if (err) throw err;
-    console.log("Table creation `parks` was successful!");
-
-    console.log("Closing...");
+    console.log("Migration was completed");
   });
 
   con.end();
