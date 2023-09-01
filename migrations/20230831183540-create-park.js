@@ -10,7 +10,6 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       googleId: {
-        allowNull: false,
         type: Sequelize.STRING,
       },
       name: {
