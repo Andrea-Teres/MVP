@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Map from "/components/Map";
 import GoogleMapComponent from "../components/GoogleMapComponent";
 import NavBar from "../components/NavBar";
+import axios from "axios";
 
 export default function Home() {
   const [parks, setParks] = useState([]);
@@ -22,39 +23,20 @@ export default function Home() {
   };
 
   //ADD the park to my wishlist
-  async function addToWishlist(e, park) {
-    const body = {
-      id: park.place_id,
-      name: park.name,
-      rating: park.rating,
-      address: park.formatted_address,
-      image_url: park.photos[0].getUrl(),
-      latitude: park.geometry.location.lat(),
-      longitude: park.geometry.location.lng(),
-    };
-
-    e.preventDefault();
+  async function addToWishlist(park) {
     try {
-      const response = await fetch("/api/wishlist", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      });
+      // Send a POST request to your backend API endpoint (/api/parks)
+      const response = await axios.post("/api/wishlist", park);
 
-      const data = await response.json();
-      console.log(data.message);
-
-      if (!response.ok) {
-        console.log("Response was not ok");
-        throw new Error(data.message);
-      } else {
+      // Check the response status and handle success or error accordingly
+      if (response.status === 200) {
         alert(`${park.name} has been added to your wishlist!`);
+      } else {
+        console.log("Response was not ok");
+        throw new Error(response.data.message);
       }
-      // getParks();
     } catch (err) {
-      console.log("Error adding park to wishlist: " + err);
+      console.error("Error adding park to wishlist: " + err.message);
     }
   }
 
@@ -123,18 +105,18 @@ export default function Home() {
                     </button>
 
                     <button
-                      className=" btn btn-outline-info btn-sm"
-                      onClick={() =>
-                        showPhotoAndOpeningHours(locationDetails.place_id)
-                      }
-                    >
-                      <i className="  fa-solid fa-circle-info"></i>
-                    </button>
-                    <button
                       className=" btn btn-outline-warning btn-sm"
                       type="submit"
                       onClick={(e) => {
-                        addToWishlist(e, locationDetails);
+                        addToWishlist({
+                          google_id: locationDetails.place_id,
+                          name: locationDetails.name,
+                          rating: locationDetails.rating,
+                          address: locationDetails.formatted_address,
+                          image_url: locationDetails.photos[0]?.getUrl() || "", // Handle case when there are no photos
+                          latitude: locationDetails.geometry.location.lat(),
+                          longitude: locationDetails.geometry.location.lng(),
+                        });
                         disableButton(e);
                       }}
                     >

@@ -15,7 +15,7 @@ router.get("/", async function (req, res, next) {
 });
 
 //POST park into wishlist DB
-//the park mustn't exist
+//ADD GUARD = the park mustn't exist
 
 router.post("/", async function (req, res, next) {
   const { google_id, name, rating, address, image_url, latitude, longitude } =

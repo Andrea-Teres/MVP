@@ -7,6 +7,8 @@ import {
   InfoWindowF,
 } from "@react-google-maps/api";
 import "../styles/GoogleMapComponent.css";
+import axios from "axios";
+
 const { VITE_GOOGLE_API_KEY } = import.meta.env;
 
 export default function Wishlist() {
@@ -31,9 +33,8 @@ export default function Wishlist() {
 
   const loadWishlist = async () => {
     try {
-      const response = await fetch("/api/wishlist");
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message);
+      const response = await axios.get("/api/wishlist");
+      const data = response.data; // Assuming the response format is an array of wishlist items
       setWishlist(data);
       console.log(data);
     } catch (err) {
@@ -43,17 +44,39 @@ export default function Wishlist() {
 
   const deleteItemFromWishlist = async (id) => {
     try {
-      const response = await fetch(`/api/wishlist/${id}`, {
-        method: "DELETE",
-      });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message);
-      loadWishlist();
-      console.log(data.message);
+      await axios.delete("/api/wishlist", { data: { id } }); // Send id in the request body
+      loadWishlist(); // Reload wishlist after deletion
+      console.log("Item deleted successfully.");
     } catch (err) {
       console.log(err);
     }
   };
+
+  // const loadWishlist = async () => {
+  //   try {
+  //     const response = await fetch("/api/wishlist");
+  //     const data = await response.json();
+  //     if (!response.ok) throw new Error(data.message);
+  //     setWishlist(data);
+  //     console.log(data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
+  // const deleteItemFromWishlist = async (id) => {
+  //   try {
+  //     const response = await fetch(`/api/wishlist/${id}`, {
+  //       method: "DELETE",
+  //     });
+  //     const data = await response.json();
+  //     if (!response.ok) throw new Error(data.message);
+  //     loadWishlist();
+  //     console.log(data.message);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   //MAP
   const { isLoaded } = useJsApiLoader({
@@ -123,11 +146,6 @@ export default function Wishlist() {
                 <i className="fa-solid fa-location-dot"></i>
               </button>
 
-              {/* <a href={park.url} target="_blank">
-                  <button className="btn btn-outline-info btn-sm">
-                    <i className=" fa-solid fa-circle-info"></i>
-                  </button>
-                </a> */}
               <button
                 onClick={() => deleteItemFromWishlist(locationDetails.id)}
                 className="btn btn-outline-danger btn-sm"
@@ -157,30 +175,6 @@ export default function Wishlist() {
               >
                 {wishlist?.map((locationDetails) => (
                   <div key={locationDetails.id}>
-                    <div
-                      className="list-group-item d-flex align-items-center justify-content-between"
-                      onClick={() => changeHighlightedPark(locationDetails)}
-                    >
-                      {locationDetails.name}
-
-                      <div className=" align-items-start justify-content-between">
-                        <button
-                          className="btn btn-outline-success btn-sm"
-                          onClick={() => changeHighlightedPark(locationDetails)}
-                        >
-                          <i className="fa-solid fa-location-dot"></i>
-                        </button>
-
-                        <button
-                          onClick={() =>
-                            deleteItemFromWishlist(locationDetails.id)
-                          }
-                          className="btn btn-outline-danger btn-sm"
-                        >
-                          <i className="fa-solid fa-trash-can"></i>
-                        </button>
-                      </div>
-                    </div>
                     <MarkerF
                       position={{
                         lat: +locationDetails?.latitude,
@@ -201,6 +195,11 @@ export default function Wishlist() {
                       {isOpen &&
                         infoWindowData?.id === locationDetails.google_id && (
                           <InfoWindowF
+                            position={{
+                              // Provide a position prop
+                              lat: +locationDetails?.latitude,
+                              lng: +locationDetails?.longitude,
+                            }}
                             onCloseClick={() => {
                               setIsOpen(false);
                             }}
@@ -221,10 +220,6 @@ export default function Wishlist() {
               </GoogleMap>
             )}
           </div>
-        </div>
-
-        <div>
-          <Outlet />
         </div>
       </div>
     </div>

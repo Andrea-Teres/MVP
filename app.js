@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
 const indexRouter = require("./routes/index");
-const parksRouter = require("./routes/parks");
+const wishlistRouter = require("./routes/wishlist");
 
 const app = express();
 
@@ -19,6 +19,6 @@ app.use(cookieParser());
 
 app.use("/", indexRouter);
 app.use("/api", indexRouter);
-app.use("/api/parks", parksRouter);
+app.use("/api/wishlist", wishlistRouter);
 
 module.exports = app;
