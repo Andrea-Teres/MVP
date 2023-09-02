@@ -5,17 +5,20 @@ async function parkShouldNotExist(req, res, next) {
   try {
     const park = await models.Park.findOne({
       where: {
-        name,
+        name: name, // Use the `name` from the request body
       },
     });
     if (!park) {
-      next();
-    } else
-      res.status(400).send({
-        message: "This park is already in your wishlist!",
-      });
+      next(); // Continue to the next middleware if the park doesn't exist
+    } else {
+      // If the park with the same name already exists, send an error response
+      const errorMessage = "This park is already in your wishlist!";
+      console.error(errorMessage);
+      res.status(400).json({ error: errorMessage });
+    }
   } catch (err) {
-    res.status(500).send(err);
+    console.error(err);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 }
 

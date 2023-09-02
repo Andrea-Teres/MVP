@@ -32,7 +32,7 @@ router.post("/", parkShouldNotExist, async function (req, res, next) {
     });
     res.send("Park added to wishlist!");
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send({ message: error.message });
   }
 });
 

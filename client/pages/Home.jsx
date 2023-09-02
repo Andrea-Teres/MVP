@@ -25,25 +25,48 @@ export default function Home() {
   //ADD the park to my wishlist
   async function addToWishlist(park) {
     try {
-      // Send a POST request to your backend API endpoint (/api/parks)
+      // Send a POST request to your backend API endpoint (/api/wishlist)
       const response = await axios.post("/api/wishlist", park);
 
       // Check the response status and handle success or error accordingly
       if (response.status === 200) {
         alert(`${park.name} has been added to your wishlist!`);
+        return response.data; // Return data on success
       } else {
         console.log("Response was not ok");
-        throw new Error(response.data.message);
+        throw new Error("Unknown error occurred");
       }
     } catch (err) {
-      console.error("Error adding park to wishlist: " + err.message);
+      if (err.response && err.response.status === 400) {
+        // The server returned a 400 status code (Bad Request)
+        alert(`You already have ${park.name} in your wishlist.`);
+        console.error(
+          "Error adding park to wishlist:",
+          err.response.data.error
+        );
+      } else {
+        // Handle other errors (e.g., network issues, server crashes)
+        alert("An error occurred while adding the park to your wishlist.");
+        console.error("Error adding park to wishlist:", err);
+      }
     }
   }
 
+  // Check the response status and handle success or error accordingly
+  //   if (data.status === 200) {
+  //     alert(`${park.name} has been added to your wishlist!`);
+  //   } else {
+  //     console.log("Response was not ok");
+  //     throw new Error(response.data.message);
+  //   }
+  // } catch (err) {
+  //   console.error("Error adding park to wishlist: " + err.message);
+  // }
+
   //DISABLE button when clicked
-  const disableButton = (event) => {
-    event.currentTarget.disabled = true;
-  };
+  // const disableButton = (event) => {
+  //   event.currentTarget.disabled = true;
+  // };
 
   const changeHighlightedPark = (locationDetails) => {
     console.log(locationDetails);
@@ -117,7 +140,7 @@ export default function Home() {
                           latitude: locationDetails.geometry.location.lat(),
                           longitude: locationDetails.geometry.location.lng(),
                         });
-                        disableButton(e);
+                        // disableButton(e);
                       }}
                     >
                       <i className="fa-solid fa-star"></i>
