@@ -110,8 +110,6 @@ export default function GoogleMapComponent({
     setIsOpen(true);
   };
 
-  //
-
   // State to store the user's current position
   const [userPosition, setUserPosition] = useState(null);
 

@@ -7,6 +7,14 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
 export default function Login() {
+  // make input and button functional
+
+  //create endpoint to authenticate users
+
+  //create users table containing email and password
+
+  //make Home and Wishlist pages private
+
   return (
     <div>
       <Container maxWidth="md" align="center">
