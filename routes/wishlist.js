@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const models = require("../models");
-const { Sequelize } = require("sequelize");
+const parkShouldNotExist = require("../guards/parkShouldNotExist");
 
 //GET all items from wishlist
 
@@ -17,7 +17,7 @@ router.get("/", async function (req, res, next) {
 //POST park into wishlist DB
 //ADD GUARD = the park mustn't exist
 
-router.post("/", async function (req, res, next) {
+router.post("/", parkShouldNotExist, async function (req, res, next) {
   const { google_id, name, rating, address, image_url, latitude, longitude } =
     req.body;
   try {
