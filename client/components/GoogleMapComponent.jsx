@@ -8,6 +8,9 @@ import {
 } from "@react-google-maps/api";
 
 import "../styles/GoogleMapComponent.css";
+import "/styles/stylesheet.css";
+import { Container, TextField, Box } from "@mui/material";
+
 const { VITE_GOOGLE_API_KEY } = import.meta.env;
 
 //searchResultsList is the main state that hold the logic, it is passed as a prop from the Home page
@@ -132,75 +135,91 @@ export default function GoogleMapComponent({
 
   return (
     <div>
-      <form onSubmit={handleSubmit} className="mt-3 mb-3 input-group">
-        <input
-          type="text"
-          value={input}
-          onChange={handleChange}
-          placeholder="Search by location or park name"
-          className="form-control"
-        />
-        <button className="search-button">Search</button>
-      </form>
+      <Container maxWidth="md" align="center">
+        <Box
+          sx={{
+            "& .MuiTextField-root": { m: 2, width: "30ch" },
+            mt: 2,
+          }}
+          noValidate
+          autoComplete="off"
+        >
+          <div>
+            <form onSubmit={handleSubmit}>
+              <TextField
+                value={input}
+                onChange={handleChange}
+                placeholder="Search by location or park name"
+                className="textfield"
+                color="warning"
+                id="fullWidth"
+              />
+              <button className="search-button">Search</button>
+            </form>
+          </div>
+        </Box>
 
-      <div className="map-container-wrap">
-        <div className="App">
-          {!isLoaded ? (
-            <h1>Loading...</h1>
-          ) : (
-            <GoogleMap
-              mapContainerClassName="map-container"
-              onLoad={onLoad}
-              center={
-                highlightedPark
-                  ? {
-                      lat: highlightedPark.geometry.location.lat(),
-                      lng: highlightedPark.geometry.location.lng(),
+        <div className="map-container-wrap">
+          <div className="App">
+            {!isLoaded ? (
+              <h1>Loading...</h1>
+            ) : (
+              <GoogleMap
+                mapContainerClassName="map-container"
+                onLoad={onLoad}
+                center={
+                  highlightedPark
+                    ? {
+                        lat: highlightedPark.geometry.location.lat(),
+                        lng: highlightedPark.geometry.location.lng(),
+                      }
+                    : userPosition || searchResultsList[0]?.geometry.location
+                }
+              >
+                {searchResultsList?.map((locationDetails) => (
+                  <MarkerF
+                    position={{
+                      lat: locationDetails.geometry.location.lat(),
+                      lng: locationDetails.geometry.location.lng(),
+                    }}
+                    onClick={() => {
+                      showMarkerInfoWindow(
+                        locationDetails.place_id,
+                        locationDetails.name,
+                        // locationDetails.geometry.location.lat(),
+                        // locationDetails.geometry.location.lng(),
+                        locationDetails.formatted_address
+                      );
+                    }}
+                    key={locationDetails.place_id}
+                    icon={
+                      "http://maps.google.com/mapfiles/ms/icons/pink-dot.png"
                     }
-                  : userPosition || searchResultsList[0]?.geometry.location
-              }
-            >
-              {searchResultsList?.map((locationDetails) => (
-                <MarkerF
-                  position={{
-                    lat: locationDetails.geometry.location.lat(),
-                    lng: locationDetails.geometry.location.lng(),
-                  }}
-                  onClick={() => {
-                    showMarkerInfoWindow(
-                      locationDetails.place_id,
-                      locationDetails.name,
-                      // locationDetails.geometry.location.lat(),
-                      // locationDetails.geometry.location.lng(),
-                      locationDetails.formatted_address
-                    );
-                  }}
-                  key={locationDetails.place_id}
-                  icon={"http://maps.google.com/mapfiles/ms/icons/pink-dot.png"}
-                >
-                  {isOpen &&
-                    infoWindowData?.id === locationDetails.place_id && (
-                      <InfoWindowF
-                        onCloseClick={() => {
-                          setIsOpen(false);
-                        }}
-                      >
-                        <div>
-                          <p className="infoWindowTitle">
-                            {infoWindowData.name}
-                          </p>
-                          <p className="infoWindowData">
-                            {infoWindowData.name} {infoWindowData.address}
-                          </p>
-                        </div>
-                      </InfoWindowF>
-                    )}
-                </MarkerF>
-              ))}
-            </GoogleMap>
-          )}
+                  >
+                    {isOpen &&
+                      infoWindowData?.id === locationDetails.place_id && (
+                        <InfoWindowF
+                          onCloseClick={() => {
+                            setIsOpen(false);
+                          }}
+                        >
+                          <div>
+                            <p className="infoWindowTitle">
+                              {infoWindowData.name}
+                            </p>
+                            <p className="infoWindowData">
+                              {infoWindowData.name} {infoWindowData.address}
+                            </p>
+                          </div>
+                        </InfoWindowF>
+                      )}
+                  </MarkerF>
+                ))}
+              </GoogleMap>
+            )}
+          </div>
         </div>
-      </div>
+      </Container>
     </div>
   );
 }

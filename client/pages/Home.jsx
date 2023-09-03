@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
+import "/styles/stylesheet.css";
 import Map from "/components/Map";
 import GoogleMapComponent from "../components/GoogleMapComponent";
-import NavBar from "../components/NavBar";
 import axios from "axios";
+import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 
 export default function Home() {
   const [parks, setParks] = useState([]);
@@ -74,88 +79,92 @@ export default function Home() {
   };
 
   return (
-    <div className="container">
-      <h3 className="text-center">What park are you looking for?</h3>
+    <div>
+      <Container maxWidth="md" align="center">
+        <Typography variant="h4" gutterBottom>
+          Your adventure starts here...
+        </Typography>
+        {error && <div className="error-message">{error}</div>}
 
-      {error && <div className="error-message">{error}</div>}
+        <GoogleMapComponent
+          changeSearchResultsList={changeSearchResultsList}
+          searchResultsList={searchResultsList}
+          highlightedPark={highlightedPark}
+          setHighlightedPark={setHighlightedPark}
+        />
 
-      <GoogleMapComponent
-        changeSearchResultsList={changeSearchResultsList}
-        searchResultsList={searchResultsList}
-        highlightedPark={highlightedPark}
-        setHighlightedPark={setHighlightedPark}
-      />
+        <div className="list-group m-5">
+          {searchResultsList && (
+            <>
+              <h4 className="text-center mb-3">
+                Check out these parks based on your search
+              </h4>
+              {searchResultsList?.map((locationDetails) => (
+                <div key={locationDetails.place_id} className="list-group-item">
+                  <div className="d-flex justify-content-between align-items-center">
+                    <p
+                      onClick={() => changeHighlightedPark(locationDetails)}
+                      className={
+                        selectedToShowPhotoAndOpeningHours ? "fw-bold" : ""
+                      }
+                    >
+                      {locationDetails.name}
+                    </p>
 
-      <div className="list-group m-5">
-        {searchResultsList && (
-          <>
-            <h4 className="text-center mb-3">
-              Check out these parks based on your search
-            </h4>
-            {searchResultsList?.map((locationDetails) => (
-              <div key={locationDetails.place_id} className="list-group-item">
-                <div className="d-flex justify-content-between align-items-center">
-                  <p
-                    onClick={() => changeHighlightedPark(locationDetails)}
-                    className={
-                      selectedToShowPhotoAndOpeningHours ? "fw-bold" : ""
-                    }
-                  >
-                    {locationDetails.name}
-                  </p>
+                    <div>
+                      <div className="btn btn-dark btn-sm rating">
+                        Rating {locationDetails.rating}
+                      </div>
+
+                      <button
+                        className=" btn btn-outline-success btn-sm"
+                        onClick={() => changeHighlightedPark(locationDetails)}
+                      >
+                        <i className=" fa-solid fa-location-dot"></i>
+                      </button>
+
+                      <button
+                        className=" btn btn-outline-warning btn-sm"
+                        type="submit"
+                        onClick={(e) => {
+                          addToWishlist({
+                            google_id: locationDetails.place_id,
+                            name: locationDetails.name,
+                            rating: locationDetails.rating,
+                            address: locationDetails.formatted_address,
+                            image_url:
+                              locationDetails.photos[0]?.getUrl() || "", // Handle case when there are no photos
+                            latitude: locationDetails.geometry.location.lat(),
+                            longitude: locationDetails.geometry.location.lng(),
+                          });
+                          // disableButton(e);
+                        }}
+                      >
+                        <i className="fa-solid fa-star"></i>
+                      </button>
+                    </div>
+                  </div>
 
                   <div>
-                    <div className="btn btn-dark btn-sm rating">
-                      Rating {locationDetails.rating}
-                    </div>
-
-                    <button
-                      className=" btn btn-outline-success btn-sm"
-                      onClick={() => changeHighlightedPark(locationDetails)}
-                    >
-                      <i className=" fa-solid fa-location-dot"></i>
-                    </button>
-
-                    <button
-                      className=" btn btn-outline-warning btn-sm"
-                      type="submit"
-                      onClick={(e) => {
-                        addToWishlist({
-                          google_id: locationDetails.place_id,
-                          name: locationDetails.name,
-                          rating: locationDetails.rating,
-                          address: locationDetails.formatted_address,
-                          image_url: locationDetails.photos[0]?.getUrl() || "", // Handle case when there are no photos
-                          latitude: locationDetails.geometry.location.lat(),
-                          longitude: locationDetails.geometry.location.lng(),
-                        });
-                        // disableButton(e);
-                      }}
-                    >
-                      <i className="fa-solid fa-star"></i>
-                    </button>
+                    {selectedToShowPhotoAndOpeningHours?.[
+                      locationDetails.place_id
+                    ] &&
+                      locationDetails?.photos && (
+                        <div className="d-flex justify-content-end mt-2 mb-2">
+                          <img
+                            src={locationDetails?.photos?.[0]?.getUrl()}
+                            alt=""
+                            height="250px"
+                          />
+                        </div>
+                      )}
                   </div>
                 </div>
-
-                <div>
-                  {selectedToShowPhotoAndOpeningHours?.[
-                    locationDetails.place_id
-                  ] &&
-                    locationDetails?.photos && (
-                      <div className="d-flex justify-content-end mt-2 mb-2">
-                        <img
-                          src={locationDetails?.photos?.[0]?.getUrl()}
-                          alt=""
-                          height="250px"
-                        />
-                      </div>
-                    )}
-                </div>
-              </div>
-            ))}
-          </>
-        )}
-      </div>
+              ))}
+            </>
+          )}
+        </div>
+      </Container>
     </div>
   );
 }

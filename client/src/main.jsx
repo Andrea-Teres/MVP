@@ -3,12 +3,12 @@ import ReactDOM from "react-dom/client";
 import NavBar from "/components/NavBar.jsx";
 import Login from "../pages/Login";
 import { BrowserRouter } from "react-router-dom";
+import App from "./App";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
-      <NavBar />
-      <Login />
+      <App />
     </BrowserRouter>
   </React.StrictMode>
 );

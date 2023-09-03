@@ -7,6 +7,8 @@ import {
   InfoWindowF,
 } from "@react-google-maps/api";
 import "../styles/GoogleMapComponent.css";
+import "/styles/stylesheet.css";
+
 import axios from "axios";
 
 const { VITE_GOOGLE_API_KEY } = import.meta.env;

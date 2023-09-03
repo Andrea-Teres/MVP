@@ -1,11 +1,10 @@
 import React from "react";
-import "/styles/LoginSignup.css";
+import "/styles/stylesheet.css";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-// import { makeStyles } from "@mui/styles";
 
 export default function Login() {
   // make input and button functional
@@ -21,7 +20,7 @@ export default function Login() {
   // const classes = useStyles();
 
   return (
-    <div>
+    <div className="container">
       <Container maxWidth="md" align="center">
         <Typography variant="h4" gutterBottom>
           Log in to My Theme Park
@@ -37,13 +36,13 @@ export default function Login() {
         >
           <div>
             <TextField
-              className="white-background"
+              className="textfield"
               label="Email"
               variant="outlined"
               color="warning"
             />
             <TextField
-              className="white-background"
+              className="textfield"
               label="Password"
               variant="outlined"
               color="warning"

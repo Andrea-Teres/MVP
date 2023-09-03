@@ -1,21 +1,18 @@
-* {
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
+h3,
+h4,
+h5 {
+  color: rgb(231, 107, 24);
 }
 
-h3,
-h4 {
-  color: rgb(231, 107, 24);
+.container {
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
 }
 
 .search-button {
   color: white;
   background-color: rgb(231, 107, 24);
   border-color: rgb(231, 107, 24);
-}
-
-.background {
-  background-color: white;
 }
 
 .error-message {
@@ -30,4 +27,12 @@ h4 {
 .rating:hover {
   background-color: #212529 !important;
   cursor: default !important;
+}
+
+.background {
+  background-color: rgb(253, 242, 202);
+}
+
+.textfield {
+  background-color: white;
 }
