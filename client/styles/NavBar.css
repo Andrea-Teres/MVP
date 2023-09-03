@@ -5,12 +5,13 @@
 
 h3,
 h4 {
-  color: rgb(76, 10, 137);
+  color: rgb(231, 107, 24);
 }
 
 .search-button {
   color: white;
-  background-color: rgb(76, 10, 137);
+  background-color: rgb(231, 107, 24);
+  border-color: rgb(231, 107, 24);
 }
 
 .background {
@@ -30,4 +31,3 @@ h4 {
   background-color: #212529 !important;
   cursor: default !important;
 }
-

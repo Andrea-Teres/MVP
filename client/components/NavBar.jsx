@@ -7,12 +7,14 @@ function App() {
   return (
     <div>
       <ul className="nav justify-content-end container-sm grid gap-3">
-        <li style={{ padding: 20 }}>My Theme Park</li>
+        <li style={{ color: "rgb(231, 107, 24)", padding: 20 }}>
+          Welcome, User!
+        </li>
         <li>
           <Link to="/home">
             <i
               className="fa-solid fa-house"
-              style={{ color: "rgb(76, 10, 137)", padding: 20 }}
+              style={{ color: "rgb(231, 107, 24)", padding: 20 }}
             ></i>
           </Link>
         </li>
@@ -20,7 +22,7 @@ function App() {
           <Link to="/wishlist">
             <i
               className="fa-solid fa-star"
-              style={{ color: "rgb(76, 10, 137)", padding: 20 }}
+              style={{ color: "rgb(231, 107, 24", padding: 20 }}
             ></i>
           </Link>
         </li>
