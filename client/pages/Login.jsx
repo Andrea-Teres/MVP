@@ -16,8 +16,8 @@ export default function Login() {
   // const classes = useStyles();
 
   return (
-    <div className="container">
-      <Container maxWidth="sm" align="center">
+    <div>
+      <Container display="flex" maxWidth="sm" align="center">
         <Typography variant="h4" gutterBottom>
           Your adventure starts here...{" "}
         </Typography>

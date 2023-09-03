@@ -134,40 +134,35 @@ export default function GoogleMapComponent({
   }, []);
 
   return (
-    <div>
-      <Container maxWidth="md" align="center">
-        <Box
-          sx={{
-            "& .MuiTextField-root": { m: 2, width: "30ch" },
-            mt: 2,
-          }}
-          noValidate
-          autoComplete="off"
-          alignItems="center"
-        >
-          <div>
-            <form onSubmit={handleSubmit}>
-              <TextField
-                value={input}
-                onChange={handleChange}
-                placeholder="Search by location or park name"
-                className="textfield"
-                color="warning"
-                size="small"
-                fullWidth
-              />
+    <Container maxWidth="md" align="center">
+      <Box
+        sx={{
+          "& .MuiTextField-root": { m: 2, width: "30ch" },
+          mt: 2,
+        }}
+        noValidate
+        autoComplete="off"
+        alignItems="center"
+      >
+        <form onSubmit={handleSubmit}>
+          <TextField
+            value={input}
+            onChange={handleChange}
+            placeholder="Search by location or park name"
+            className="textfield"
+            color="warning"
+            size="small"
+          />
 
-              <Button
-                type="submit"
-                variant="contained"
-                color="warning"
-                sx={{ marginBottom: "-44px" }}
-              >
-                Search
-              </Button>
-            </form>
-          </div>
-        </Box>
+          <Button
+            type="submit"
+            variant="contained"
+            color="warning"
+            sx={{ marginBottom: "-44px" }}
+          >
+            Search
+          </Button>
+        </form>
 
         <div className="map-container-wrap">
           <div className="App">
@@ -178,12 +173,12 @@ export default function GoogleMapComponent({
                 mapContainerClassName="map-container"
                 onLoad={onLoad}
                 center={
-                  highlightedPark
+                  searchResultsList.length > 0
                     ? {
-                        lat: highlightedPark.geometry.location.lat(),
-                        lng: highlightedPark.geometry.location.lng(),
+                        lat: searchResultsList[0].geometry.location.lat(),
+                        lng: searchResultsList[0].geometry.location.lng(),
                       }
-                    : userPosition || searchResultsList[0]?.geometry.location
+                    : userPosition || { lat: 0, lng: 0 } // Use a default center if no results or user position available
                 }
               >
                 {searchResultsList?.map((locationDetails) => (
@@ -229,7 +224,7 @@ export default function GoogleMapComponent({
             )}
           </div>
         </div>
-      </Container>
-    </div>
+      </Box>
+    </Container>
   );
 }

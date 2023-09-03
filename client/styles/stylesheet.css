@@ -4,11 +4,6 @@ h5 {
   color: rgb(231, 107, 24);
 }
 
-.container {
-  display: flex;
-  flex-direction: column; /* Stack children vertically */
-}
-
 .error-message {
   font-size: x-small;
 }

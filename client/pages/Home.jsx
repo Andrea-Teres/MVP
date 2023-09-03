@@ -75,8 +75,8 @@ export default function Home() {
   };
 
   return (
-    <div className="container">
-      <Container maxWidth="md" align="center">
+    <div>
+      <Container display="flex" maxWidth="md" align="center">
         {/* <Typography variant="h4" gutterBottom>
           Your adventure starts here...
         </Typography> */}
@@ -93,7 +93,7 @@ export default function Home() {
           {searchResultsList && (
             <>
               <h4 className="text-center mb-3">
-                Check out these parks based on your search
+                Your adventure starts here...{" "}
               </h4>
               {searchResultsList?.map((locationDetails) => (
                 <div key={locationDetails.place_id} className="list-group-item">
