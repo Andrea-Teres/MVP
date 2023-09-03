@@ -52,17 +52,6 @@ export default function Home() {
     }
   }
 
-  // Check the response status and handle success or error accordingly
-  //   if (data.status === 200) {
-  //     alert(`${park.name} has been added to your wishlist!`);
-  //   } else {
-  //     console.log("Response was not ok");
-  //     throw new Error(response.data.message);
-  //   }
-  // } catch (err) {
-  //   console.error("Error adding park to wishlist: " + err.message);
-  // }
-
   //DISABLE button when clicked
   // const disableButton = (event) => {
   //   event.currentTarget.disabled = true;
@@ -86,7 +75,7 @@ export default function Home() {
 
   return (
     <div className="container">
-      <h3 className="text-center">My Theme Park Database</h3>
+      <h3 className="text-center">What park are you looking for?</h3>
 
       {error && <div className="error-message">{error}</div>}
 

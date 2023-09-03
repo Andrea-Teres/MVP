@@ -7,6 +7,7 @@ function App() {
   return (
     <div>
       <ul className="nav justify-content-end container-sm grid gap-3">
+        <li style={{ padding: 20 }}>My Theme Park</li>
         <li>
           <Link to="/home">
             <i

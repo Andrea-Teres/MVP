@@ -5,21 +5,26 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+// import { makeStyles } from "@mui/styles";
 
 export default function Login() {
   // make input and button functional
 
   //create endpoint to authenticate users
 
-  //create users table containing email and password
-
   //make Home and Wishlist pages private
+  // const useStyles = makeStyles((theme) => ({
+  //   customTextField: {
+  //     backgroundColor: "#ffebee",
+  //   },
+  // }));
+  // const classes = useStyles();
 
   return (
     <div>
       <Container maxWidth="md" align="center">
-        <Typography variant="h2" gutterBottom>
-          Log in
+        <Typography variant="h4" gutterBottom>
+          Log in to My Theme Park
         </Typography>
         <Box
           component="form"
@@ -32,20 +37,20 @@ export default function Login() {
         >
           <div>
             <TextField
-              id="outlined-basic"
+              className="white-background"
               label="Email"
               variant="outlined"
-              color="secondary"
+              color="warning"
             />
             <TextField
-              id="outlined-basic"
+              className="white-background"
               label="Password"
               variant="outlined"
-              color="secondary"
+              color="warning"
             />
           </div>
         </Box>
-        <Button variant="outlined" color="secondary">
+        <Button variant="outlined" color="warning">
           Log in
         </Button>
         <Box sx={{ mt: 2 }}>

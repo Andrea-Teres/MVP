@@ -1,5 +1,11 @@
-h2 {
-  color: blueviolet;
-  font-size: 50px;
-  opacity: 0.4;
+h4 {
+  color: rgb(231, 107, 24);
+}
+
+.background {
+  background-color: rgb(245, 227, 205);
+}
+
+.white-background {
+  background-color: white;
 }
