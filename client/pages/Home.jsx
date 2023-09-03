@@ -3,11 +3,7 @@ import "/styles/stylesheet.css";
 import Map from "/components/Map";
 import GoogleMapComponent from "../components/GoogleMapComponent";
 import axios from "axios";
-import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+import { Container, Typography } from "@mui/material";
 
 export default function Home() {
   const [parks, setParks] = useState([]);
@@ -79,11 +75,11 @@ export default function Home() {
   };
 
   return (
-    <div>
+    <div className="container">
       <Container maxWidth="md" align="center">
-        <Typography variant="h4" gutterBottom>
+        {/* <Typography variant="h4" gutterBottom>
           Your adventure starts here...
-        </Typography>
+        </Typography> */}
         {error && <div className="error-message">{error}</div>}
 
         <GoogleMapComponent

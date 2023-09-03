@@ -9,12 +9,6 @@ h5 {
   flex-direction: column; /* Stack children vertically */
 }
 
-.search-button {
-  color: white;
-  background-color: rgb(231, 107, 24);
-  border-color: rgb(231, 107, 24);
-}
-
 .error-message {
   font-size: x-small;
 }
@@ -35,4 +29,5 @@ h5 {
 
 .textfield {
   background-color: white;
+  margin-bottom: 8px;
 }

@@ -9,7 +9,7 @@ import {
 
 import "../styles/GoogleMapComponent.css";
 import "/styles/stylesheet.css";
-import { Container, TextField, Box } from "@mui/material";
+import { Container, TextField, Box, Button, Grid } from "@mui/material";
 
 const { VITE_GOOGLE_API_KEY } = import.meta.env;
 
@@ -143,6 +143,7 @@ export default function GoogleMapComponent({
           }}
           noValidate
           autoComplete="off"
+          alignItems="center"
         >
           <div>
             <form onSubmit={handleSubmit}>
@@ -152,9 +153,18 @@ export default function GoogleMapComponent({
                 placeholder="Search by location or park name"
                 className="textfield"
                 color="warning"
-                id="fullWidth"
+                size="small"
+                fullWidth
               />
-              <button className="search-button">Search</button>
+
+              <Button
+                type="submit"
+                variant="contained"
+                color="warning"
+                sx={{ marginBottom: "-44px" }}
+              >
+                Search
+              </Button>
             </form>
           </div>
         </Box>
