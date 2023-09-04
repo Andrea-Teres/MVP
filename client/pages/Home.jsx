@@ -93,7 +93,7 @@ export default function Home() {
           {searchResultsList && (
             <>
               <h4 className="text-center mb-3">
-                Your adventure starts here...{" "}
+                Check out these parks based on your search:
               </h4>
               {searchResultsList?.map((locationDetails) => (
                 <div key={locationDetails.place_id} className="list-group-item">
