@@ -9,12 +9,6 @@ export default function Login() {
   //create endpoint to authenticate users
 
   //make Home and Wishlist pages private
-  // const useStyles = makeStyles((theme) => ({
-  //   customTextField: {
-  //     backgroundColor: "#ffebee",
-  //   },
-  // }));
-  // const classes = useStyles();
 
   return (
     <div>

@@ -142,27 +142,36 @@ export default function GoogleMapComponent({
         }}
         noValidate
         autoComplete="off"
-        alignItems="center"
       >
-        <form onSubmit={handleSubmit}>
-          <TextField
-            value={input}
-            onChange={handleChange}
-            placeholder="Search by location or park name"
-            className="textfield"
-            color="warning"
-            size="small"
-          />
-
-          <Button
-            type="submit"
-            variant="contained"
-            color="warning"
-            sx={{ marginBottom: "-44px" }}
-          >
-            Search
-          </Button>
-        </form>
+        <Box
+          sx={{
+            "& .MuiTextField-root": { m: 2, width: "30ch" },
+            mt: 2,
+          }}
+          noValidate
+          autoComplete="off"
+        >
+          <div className="search-container">
+            <form onSubmit={handleSubmit}>
+              <TextField
+                value={input}
+                onChange={handleChange}
+                placeholder="Search by location or park name"
+                className="textfield"
+                color="warning"
+                size="small"
+              />
+              <Button
+                type="submit"
+                variant="contained"
+                color="warning"
+                sx={{ marginBottom: "-44px" }}
+              >
+                Search
+              </Button>
+            </form>
+          </div>
+        </Box>
 
         <div className="map-container-wrap">
           <div className="App">

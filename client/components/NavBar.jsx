@@ -1,11 +1,7 @@
 import "/styles/stylesheet.css";
 import { Routes, Route, Link } from "react-router-dom";
-//CLEAN THIS!
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
+
+import { AppBar, Box, Toolbar, Typography, IconButton } from "@mui/material";
 import AttractionsOutlinedIcon from "@mui/icons-material/AttractionsOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import header from "../assets/park-quest-logo-2.png";
