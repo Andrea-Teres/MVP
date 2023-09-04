@@ -109,7 +109,6 @@ export default function Home() {
                   {searchResultsList.length > 0 && ( // Conditionally render TableHead
                     <TableHead>
                       <TableRow>
-                        {/* Add table headers here */}
                         <TableCell>Name</TableCell>
                         <TableCell>Rating</TableCell>
                         <TableCell>Location</TableCell>

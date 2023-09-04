@@ -176,7 +176,7 @@ export default function GoogleMapComponent({
         <div className="map-container-wrap">
           <div className="App">
             {!isLoaded ? (
-              <h1>Loading...</h1>
+              <h4>Loading...</h4>
             ) : (
               <GoogleMap
                 mapContainerClassName="map-container"

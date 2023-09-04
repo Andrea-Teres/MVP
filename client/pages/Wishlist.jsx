@@ -8,6 +8,21 @@ import {
 } from "@react-google-maps/api";
 import "../styles/GoogleMapComponent.css";
 import "/styles/stylesheet.css";
+import {
+  Container,
+  Typography,
+  Grid,
+  TableContainer,
+  Paper,
+  Table,
+  TableHead,
+  TableRow,
+  TableBody,
+  TableCell,
+  IconButton,
+} from "@mui/material";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import HeartBrokenOutlinedIcon from "@mui/icons-material/HeartBrokenOutlined";
 
 import axios from "axios";
 
@@ -38,7 +53,6 @@ export default function Wishlist() {
       const response = await axios.get("/api/wishlist");
       const data = response.data; // Assuming the response format is an array of wishlist items
       setWishlist(data);
-      console.log(data);
     } catch (err) {
       console.log(err);
     }
@@ -103,101 +117,138 @@ export default function Wishlist() {
   };
 
   return (
-    <div className="container">
-      <h3 className="text-center">Wishlist</h3>
-      <div className="list-group mt-4">
-        {wishlist.map((locationDetails) => (
-          <div
-            key={locationDetails.id}
-            className="list-group-item d-flex align-items-center justify-content-between"
-            onClick={() => changeHighlightedPark(locationDetails)}
-          >
-            {locationDetails.name}
-
-            <div className=" align-items-start justify-content-between">
-              <button
-                className="btn btn-outline-success btn-sm"
-                onClick={() => changeHighlightedPark(locationDetails)}
-              >
-                <i className="fa-solid fa-location-dot"></i>
-              </button>
-
-              <button
-                onClick={() => deleteItemFromWishlist(locationDetails.id)}
-                className="btn btn-outline-danger btn-sm"
-              >
-                <i className="fa-solid fa-trash-can"></i>
-              </button>
-            </div>
-          </div>
-        ))}
-
-        <div className="map-container-wrap m-3">
-          <div className="App">
-            {!isLoaded ? (
-              <h1>Loading...</h1>
-            ) : (
-              <GoogleMap
-                mapContainerClassName="map-container"
-                onLoad={onLoad}
-                center={
-                  highlightedPark
-                    ? {
-                        lat: +highlightedPark.latitude,
-                        lng: +highlightedPark.longitude,
-                      }
-                    : currentLocation // Use current location if no highlightedPark
-                }
-              >
-                {wishlist?.map((locationDetails) => (
-                  <div key={locationDetails.id}>
-                    <MarkerF
-                      position={{
-                        lat: +locationDetails?.latitude,
-                        lng: +locationDetails?.longitude,
-                      }}
-                      onClick={() => {
-                        showMarkerInfoWindow(
-                          locationDetails.google_id,
-                          locationDetails.name,
-                          locationDetails.address
-                        );
-                      }}
-                      key={locationDetails.id}
-                      icon={
-                        "http://maps.google.com/mapfiles/ms/icons/pink-dot.png"
-                      }
-                    >
-                      {isOpen &&
-                        infoWindowData?.id === locationDetails.google_id && (
-                          <InfoWindowF
-                            position={{
-                              // Provide a position prop
-                              lat: +locationDetails?.latitude,
-                              lng: +locationDetails?.longitude,
-                            }}
-                            onCloseClick={() => {
-                              setIsOpen(false);
-                            }}
+    <div>
+      <Container display="flex" maxWidth="lg" align="left">
+        <Typography variant="h4" sx={{ mt: 5 }}>
+          Wishlist
+        </Typography>
+        <Grid container spacing={2}>
+          <Grid item xs={5}>
+            <Paper>
+              <TableContainer sx={{ maxHeight: 330, mt: 2 }}>
+                <Table stickyHeader aria-label="wishlist table">
+                  {wishlist.length > 0 && (
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Name</TableCell>
+                        <TableCell>Location</TableCell>
+                        <TableCell>Actions</TableCell>
+                      </TableRow>
+                    </TableHead>
+                  )}
+                  <TableBody>
+                    {wishlist.map((locationDetails) => (
+                      <TableRow key={locationDetails.id}>
+                        <TableCell>
+                          <Typography
+                            onClick={() =>
+                              changeHighlightedPark(locationDetails)
+                            }
                           >
-                            <div>
-                              <p className="infoWindowTitle">
-                                {infoWindowData.name}
-                              </p>
-                              <p className="infoWindowData">
-                                {infoWindowData.name} {infoWindowData.address}
-                              </p>
-                            </div>
-                          </InfoWindowF>
-                        )}
-                    </MarkerF>
-                  </div>
-                ))}
-              </GoogleMap>
-            )}
-          </div>
-        </div>
-      </div>
+                            {locationDetails.name}
+                          </Typography>
+                        </TableCell>
+                        <TableCell>
+                          <IconButton
+                            sx={{ color: "rgb(149, 5, 50)" }}
+                            onClick={() =>
+                              changeHighlightedPark(locationDetails)
+                            }
+                          >
+                            <LocationOnIcon />
+                          </IconButton>
+                        </TableCell>
+                        <TableCell>
+                          <IconButton
+                            sx={{ color: "rgb(149, 5, 50)" }}
+                            onClick={() =>
+                              deleteItemFromWishlist(locationDetails.id)
+                            }
+                          >
+                            <HeartBrokenOutlinedIcon />{" "}
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Paper>
+          </Grid>
+
+          {/* MAP COMPONENT */}
+
+          <Grid item xs={7}>
+            <div className="map-container-wrap m-3">
+              <div className="App">
+                {!isLoaded ? (
+                  <h1>Loading...</h1>
+                ) : (
+                  <GoogleMap
+                    mapContainerClassName="map-container"
+                    onLoad={onLoad}
+                    center={
+                      highlightedPark
+                        ? {
+                            lat: +highlightedPark.latitude,
+                            lng: +highlightedPark.longitude,
+                          }
+                        : currentLocation // Use current location if no highlightedPark
+                    }
+                  >
+                    {wishlist?.map((locationDetails) => (
+                      <div key={locationDetails.id}>
+                        <MarkerF
+                          position={{
+                            lat: +locationDetails?.latitude,
+                            lng: +locationDetails?.longitude,
+                          }}
+                          onClick={() => {
+                            showMarkerInfoWindow(
+                              locationDetails.google_id,
+                              locationDetails.name,
+                              locationDetails.address
+                            );
+                          }}
+                          key={locationDetails.id}
+                          icon={
+                            "http://maps.google.com/mapfiles/ms/icons/pink-dot.png"
+                          }
+                        >
+                          {isOpen &&
+                            infoWindowData?.id ===
+                              locationDetails.google_id && (
+                              <InfoWindowF
+                                position={{
+                                  // Provide a position prop
+                                  lat: +locationDetails?.latitude,
+                                  lng: +locationDetails?.longitude,
+                                }}
+                                onCloseClick={() => {
+                                  setIsOpen(false);
+                                }}
+                              >
+                                <div>
+                                  <p className="infoWindowTitle">
+                                    {infoWindowData.name}
+                                  </p>
+                                  <p className="infoWindowData">
+                                    {infoWindowData.name}{" "}
+                                    {infoWindowData.address}
+                                  </p>
+                                </div>
+                              </InfoWindowF>
+                            )}
+                        </MarkerF>
+                      </div>
+                    ))}
+                  </GoogleMap>
+                )}
+              </div>
+            </div>
+          </Grid>
+        </Grid>
+      </Container>
     </div>
   );
 }
