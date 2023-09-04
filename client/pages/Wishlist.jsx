@@ -54,32 +54,6 @@ export default function Wishlist() {
     }
   };
 
-  // const loadWishlist = async () => {
-  //   try {
-  //     const response = await fetch("/api/wishlist");
-  //     const data = await response.json();
-  //     if (!response.ok) throw new Error(data.message);
-  //     setWishlist(data);
-  //     console.log(data);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
-  // const deleteItemFromWishlist = async (id) => {
-  //   try {
-  //     const response = await fetch(`/api/wishlist/${id}`, {
-  //       method: "DELETE",
-  //     });
-  //     const data = await response.json();
-  //     if (!response.ok) throw new Error(data.message);
-  //     loadWishlist();
-  //     console.log(data.message);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
   //MAP
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
