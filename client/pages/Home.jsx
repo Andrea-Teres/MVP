@@ -14,7 +14,11 @@ import {
   TableRow,
   TableBody,
   TableCell,
+  IconButton,
 } from "@mui/material";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 export default function Home() {
   const [parks, setParks] = useState([]);
@@ -101,7 +105,7 @@ export default function Home() {
           <Grid item xs={5}>
             <Paper>
               <TableContainer sx={{ maxHeight: 330, mt: 13 }}>
-                <Table stickyHeader aria-label="sticky table">
+                <Table stickyHeader aria-label="results table">
                   {searchResultsList.length > 0 && ( // Conditionally render TableHead
                     <TableHead>
                       <TableRow>
@@ -144,19 +148,20 @@ export default function Home() {
                         </TableCell>
                         <TableCell>{locationDetails.rating}</TableCell>
                         <TableCell>
-                          <button
-                            className="btn btn-outline-success btn-sm"
+                          <IconButton
+                            aria-label="location"
+                            sx={{ color: "rgb(149, 5, 50)" }}
                             onClick={() =>
                               changeHighlightedPark(locationDetails)
                             }
                           >
-                            <i className="fa-solid fa-location-dot"></i>
-                          </button>
+                            <LocationOnIcon />
+                          </IconButton>
                         </TableCell>
                         <TableCell>
-                          <button
-                            className="btn btn-outline-warning btn-sm"
+                          <IconButton
                             type="submit"
+                            sx={{ color: "rgb(149, 5, 50)" }}
                             onClick={(e) => {
                               addToWishlist({
                                 google_id: locationDetails.place_id,
@@ -172,8 +177,8 @@ export default function Home() {
                               });
                             }}
                           >
-                            <i className="fa-solid fa-star"></i>
-                          </button>
+                            <FavoriteBorderIcon />
+                          </IconButton>
                         </TableCell>
                       </TableRow>
                     ))}
