@@ -91,7 +91,7 @@ export default function Home() {
 
   return (
     <div>
-      <Container display="flex" maxWidth="lg" align="center">
+      <Container maxWidth="lg" align="center">
         {error && <div className="error-message">{error}</div>}
         <Grid container spacing={2}>
           <Grid item xs={7}>
@@ -104,7 +104,13 @@ export default function Home() {
           </Grid>
           <Grid item xs={5}>
             <Paper>
-              <TableContainer sx={{ maxHeight: 330, mt: 13 }}>
+              <TableContainer
+                sx={{
+                  maxHeight: "calc(100vh - 64px)", // Adjust the maxHeight as needed
+                  overflowY: "auto",
+                  width: "100%", // Table takes full width on all screen sizes
+                }}
+              >
                 <Table stickyHeader aria-label="results table">
                   {searchResultsList.length > 0 && ( // Conditionally render TableHead
                     <TableHead>

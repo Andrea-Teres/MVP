@@ -29,3 +29,11 @@ h5 {
 .logo-image {
   width: 250px;
 }
+
+.title-image {
+  width: 200px;
+  margin-top: 50px;
+}
+.table-wrap {
+  display: flex;
+}

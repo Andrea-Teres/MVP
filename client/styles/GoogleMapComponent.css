@@ -1,8 +1,7 @@
 .map-container-wrap {
   display: flex;
-  justify-content: center;
+  justify-content: left;
 }
-
 .App {
   min-height: 50vh;
   min-width: 50vw;
@@ -11,6 +10,7 @@
 .map-container {
   height: 100%;
   width: 100%;
+  max-width: 600px;
 }
 
 .infoWindowTitle {
@@ -25,5 +25,6 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  margin-bottom: 16px; /* Adjust margin as needed */
+  margin-bottom: 16px;
+  /* Adjust margin as needed */
 }

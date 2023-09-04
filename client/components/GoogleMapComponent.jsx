@@ -134,7 +134,7 @@ export default function GoogleMapComponent({
   }, []);
 
   return (
-    <Container maxWidth="md" align="center">
+    <Container maxWidth="md" align="left">
       <Box
         sx={{
           "& .MuiTextField-root": { m: 2, width: "30ch" },
