@@ -1,6 +1,7 @@
 import React from "react";
 import "/styles/stylesheet.css";
 import { Container, Box, TextField, Button, Typography } from "@mui/material";
+import background from "../assets/background-logo.png";
 
 export default function Login() {
   // make input and button functional
@@ -18,8 +19,8 @@ export default function Login() {
   return (
     <div>
       <Container display="flex" maxWidth="sm" align="center">
-        <Typography variant="h4" gutterBottom>
-          Your adventure starts here...{" "}
+        <Typography variant="h4" sx={{ mt: 5 }}>
+          Your adventure starts here...
         </Typography>
         <Box
           component="form"
