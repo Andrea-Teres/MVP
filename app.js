@@ -6,6 +6,7 @@ const logger = require("morgan");
 
 const indexRouter = require("./routes/index");
 const wishlistRouter = require("./routes/wishlist");
+const authRouter = require("./routes/auth");
 
 const app = express();
 
@@ -20,5 +21,7 @@ app.use(cookieParser());
 app.use("/", indexRouter);
 app.use("/api", indexRouter);
 app.use("/api/wishlist", wishlistRouter);
+
+app.use("/api/auth", authRouter);
 
 module.exports = app;

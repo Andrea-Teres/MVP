@@ -1,11 +1,9 @@
 import React from "react";
 import "/styles/stylesheet.css";
 import { Container, Box, TextField, Button, Typography } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
-
 import background from "../assets/background-logo.png";
 
-export default function Login() {
+export default function Register() {
   // make input and button functional
 
   //create endpoint to authenticate users
@@ -16,7 +14,7 @@ export default function Login() {
     <div>
       <Container display="flex" maxWidth="sm" align="center">
         <Typography variant="h4" sx={{ mt: 5 }}>
-          Your adventure starts here...
+          Create your profile{" "}
         </Typography>
         <Box
           component="form"
@@ -43,13 +41,8 @@ export default function Login() {
           </div>
         </Box>
         <Button variant="contained" color="warning">
-          Log in
+          Sign up{" "}
         </Button>
-        <Box sx={{ mt: 2 }}>
-          <Typography sx={{ fontSize: "20px" }}>
-            Not a member? <Link to="/register">Sign up!</Link>
-          </Typography>
-        </Box>
       </Container>
 
       {/* Link to Sign up page */}
