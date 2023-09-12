@@ -105,11 +105,7 @@ export default function Home() {
           <Grid item xs={5}>
             <Paper>
               <TableContainer
-                sx={{
-                  maxHeight: "calc(100vh - 64px)", // Adjust the maxHeight as needed
-                  overflowY: "auto",
-                  width: "100%", // Table takes full width on all screen sizes
-                }}
+                sx={{ maxHeight: 330, mt: 13, overflowY: "auto" }}
               >
                 <Table stickyHeader aria-label="results table">
                   {searchResultsList.length > 0 && ( // Conditionally render TableHead
