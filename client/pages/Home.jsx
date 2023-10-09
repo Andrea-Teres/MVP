@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import "/styles/stylesheet.css";
 import Map from "/components/Map";
 import GoogleMapComponent from "../components/GoogleMapComponent";
+import NavBar from "../components/NavBar";
+
 import axios from "axios";
 import {
   Container,
@@ -91,6 +93,7 @@ export default function Home() {
 
   return (
     <div>
+      <NavBar />
       <Container maxWidth="lg" align="center">
         {error && <div className="error-message">{error}</div>}
         <Grid container spacing={2}>

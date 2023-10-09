@@ -1,12 +1,16 @@
 import "/styles/stylesheet.css";
-import { Routes, Route, Link } from "react-router-dom";
+import { useState, useContext, useEffect } from "react";
 
+import { useNavigate, Link } from "react-router-dom";
+import AuthContext from "../contexts/AuthContext";
 import { AppBar, Box, Toolbar, Typography, IconButton } from "@mui/material";
 import AttractionsOutlinedIcon from "@mui/icons-material/AttractionsOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import header from "../assets/park-quest-logo-2.png";
 
 function NavBar() {
+  const auth = useContext(AuthContext);
+
   return (
     <div>
       <Box sx={{ flexGrow: 1 }}>
@@ -27,8 +31,9 @@ function NavBar() {
                 mr: 5,
               }}
             >
-              Welcome, Andrea!
+              Welcome!
             </Typography>
+            <a onClick={auth.logout}>Logout</a>
 
             <Link to="/wishlist">
               <IconButton
