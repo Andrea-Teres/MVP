@@ -1,6 +1,6 @@
 import "/styles/stylesheet.css";
 import { useState, useContext, useEffect } from "react";
-
+import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import AuthContext from "../contexts/AuthContext";
 import { AppBar, Box, Toolbar, Typography, IconButton } from "@mui/material";
@@ -10,6 +10,22 @@ import header from "../assets/park-quest-logo-2.png";
 
 function NavBar() {
   const auth = useContext(AuthContext);
+  const [userEmail, setUserEmail] = useState(null);
+
+  const getUserEmail = async () => {
+    try {
+      const response = await axios.get("/api/user/email/:email");
+      const data = response.data.email;
+      setUserEmail(data);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getUserEmail();
+  }, []);
 
   return (
     <div>
@@ -31,7 +47,7 @@ function NavBar() {
                 mr: 5,
               }}
             >
-              Welcome!
+              Welcome {userEmail}!
             </Typography>
             <a onClick={auth.logout}>Logout</a>
 

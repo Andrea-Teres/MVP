@@ -53,7 +53,7 @@ export default function Register() {
         <Typography variant="h4" sx={{ mt: 5 }}>
           Create your profile
         </Typography>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{ mt: 3 }}>
           <Grid item xs={6}>
             <Box>
               <img src={header} alt="Park Quest" className="logo-register" />
@@ -96,7 +96,6 @@ export default function Register() {
                 variant="contained"
                 color="warning"
                 sx={{
-                  ml: 1.5,
                   mt: 2,
                 }}
               >
@@ -105,6 +104,11 @@ export default function Register() {
             </Box>
           </Grid>
         </Grid>
+        <Box sx={{ mt: 5 }}>
+          <Typography sx={{ fontSize: "20px" }}>
+            Already a member? <Link to="/login">Log in.</Link>
+          </Typography>
+        </Box>
       </Container>
     </div>
   );

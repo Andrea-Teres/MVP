@@ -42,10 +42,16 @@ function App() {
     <AuthContext.Provider value={authObject}>
       <div>
         <Routes>
-          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>
-
+          <Route
+            path="/"
+            element={
+              <RequireAuth>
+                <Home />
+              </RequireAuth>
+            }
+          />
           <Route
             path="/home"
             element={
