@@ -3,29 +3,26 @@ import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import AuthContext from "../contexts/AuthContext";
-import { AppBar, Box, Toolbar, Typography, IconButton } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  Typography,
+  IconButton,
+  Button,
+} from "@mui/material";
 import AttractionsOutlinedIcon from "@mui/icons-material/AttractionsOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import header from "../assets/park-quest-logo-2.png";
 
 function NavBar() {
   const auth = useContext(AuthContext);
-  const [userEmail, setUserEmail] = useState(null);
 
-  const getUserEmail = async () => {
-    try {
-      const response = await axios.get("/api/user/email/:email");
-      const data = response.data.email;
-      setUserEmail(data);
-      console.log(data);
-    } catch (err) {
-      console.log(err);
-    }
+  const getEmailDisplay = (user) => {
+    return user ? `Welcome ${user.email}!` : "Welcome Guest!";
   };
 
-  useEffect(() => {
-    getUserEmail();
-  }, []);
+  const emailDisplay = getEmailDisplay(auth.user);
 
   return (
     <div>
@@ -47,9 +44,24 @@ function NavBar() {
                 mr: 5,
               }}
             >
-              Welcome {userEmail}!
+              Welcome!
+              {/* {emailDisplay} */}
             </Typography>
-            <a onClick={auth.logout}>Logout</a>
+            <Button
+              variant="contained"
+              sx={{
+                color: "#960532",
+                backgroundColor: "#F8F0D3",
+                ":hover": {
+                  backgroundColor: "#960532",
+                  color: "#F8F0D3",
+                },
+                mr: 5,
+              }}
+              onClick={auth.logout}
+            >
+              Log out
+            </Button>
 
             <Link to="/wishlist">
               <IconButton
