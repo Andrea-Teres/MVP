@@ -1,3 +1,13 @@
+##UPDATE DATABASE ETC##
+
+## AFTER INTRO, HOW DO I RUN IT (NPM START ETC)
+
+## ADD TECHNOLOGIES USED
+
+
+
+
+
 # My Theme Park Database
 
 ((working on AUTHENTICATION))
