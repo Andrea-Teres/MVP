@@ -20,7 +20,7 @@ function App() {
   function login(data) {
     if (data) {
       localStorage.setItem("token", data.token);
-      localStorage.setItem("email", data.username);
+      localStorage.setItem("email", data.email);
     }
     setUser(true);
     console.log("login");

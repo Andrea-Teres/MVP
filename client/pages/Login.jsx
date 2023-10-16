@@ -10,6 +10,7 @@ import axios from "axios";
 export default function Login() {
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
 
   const [credentials, setCredentials] = useState({
     email: "",
@@ -36,10 +37,12 @@ export default function Login() {
       // console.log(auth);
       console.log(data);
       setData(data.message);
+      setError(null);
       navigate("/home");
     } catch (error) {
       console.log(error);
       setData("Login failed, please try again");
+      setError(error);
     }
   };
 
@@ -49,9 +52,7 @@ export default function Login() {
         <Box>
           <img src={header} alt="Park Quest" />
         </Box>
-        {/* <Typography variant="h4" sx={{ mt: 5 }}>
-          Your adventure starts here...
-        </Typography> */}
+
         <Box
           sx={{
             "& .MuiTextField-root": { m: 2, width: "30ch" },
@@ -89,11 +90,13 @@ export default function Login() {
         >
           Log in
         </Button>
-        <Box sx={{ mt: 2 }}>
-          <Typography sx={{ fontSize: "20px" }}>
-            Not a member? <Link to="/register">Sign up!</Link>
-          </Typography>
-        </Box>
+        {error && (
+          <Box sx={{ mt: 2 }}>
+            <Typography sx={{ fontSize: "20px" }}>
+              Not a member? <Link to="/register">Sign up!</Link>
+            </Typography>
+          </Box>
+        )}
       </Container>
 
       {/* Link to Sign up page */}
