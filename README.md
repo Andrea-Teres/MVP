@@ -1,65 +1,123 @@
-##UPDATE DATABASE ETC##
-
-## AFTER INTRO, HOW DO I RUN IT (NPM START ETC)
-
-## ADD TECHNOLOGIES USED
-
-
-
-
-
-# My Theme Park Database
-
-((working on AUTHENTICATION))
-
-## SETUP
-
-- BACKEND: In your console, cd into the folder "mvp-FS26-Andrea-Teres". Run "npm start".
-- FRONTEND: In a new console, cd into the "client" folder and run "npm run dev".
-- DATABASE: In a new console, go into "mysql" and type:
-  - USE parks;
-  - SELECT \* FROM parks;
-    This will display the table with the contents of the database (Note: If your Wishlist is empty, so will be the database table).
-    You don't really need to work on the database in mysql (the contents are sent from the frontend and then the backend), but you can check if the Wishlist is working.
+# Park Quest
 
 ## Introduction
 
-This MVP allows you to search any theme park in the world, display it in a map and save it in a wishlist.
+Welcome to Park Quest! The app that allows you to search and save your favorite theme parks around the world!
 
-## How does it work?
+## How you can run it
 
-[display search results]
-YELP API --> BACKEND --> HOME
+- Clone the repository by typing "git clone https://github.com/Andrea-Teres/ParkQuest.git" in your terminal.
+- "cd" into the project folder and run "npm install" in your terminal. This will install the BACKEND dependencies.
+- "cd" into the "client" folder of the project and run "npm install" in your terminal. This will install the FRONTEND dependencies.
 
-[send items to Wishlist]
-HOME --> BACKEND --> DATABASE --> WISHLIST
+Once everyhting's installed, you will need three open tabs in your terminal to run the BACKEND, the FRONTEND and the DATABASE:
 
-[display on map]
-GOOGLE API --> MAP --> HOME
-GOOGLE API --> MAP --> WISHLIST
+BACKEND
 
-### HOME
+- "cd" into the project folder and run "npm start" in your terminal. This will start running the BACKEND.
 
-- The search bar on the "Home" page is connected to the Yelp API and displays the results inside the category of "Amusement Parks". It admits both a location and a park.
-- Those results are at the same time connected to the Google Maps Embed API that displays the results (or some of them) on a map.
-- The "marker" button shows the park on the map.
-- The "i" button links you to the Yelp url of the park.
-- The "star" button saves the park in your Wishlist (aka your "parks" database).
+FRONTEND
 
-### WISHLIST
+- "cd" into the "client" folder of the project and run "npm run dev" in your terminal. This will start running the FRONTEND in a localhost.
 
-- Displays the parks you saved and they're also connected to the Google Maps Embed API.
-- The "marker" button shows the park on the map.
-- The "i" button links you to the Yelp url of the park.
-- The "bin" button deletes the park from your Wishlist (and from your "parks" database)
+DATABASE
 
-## What does it contain?
+- Type "mysql -u root -p" to start running MySQL. Enter your password.
+- Type "CREATE DATABASE parks" to create the database.
+- Type "USE parks" to use the database.
 
-- The backend routes connected to the Yelp API inside the index.js file.
-- An App.jsx file with 2 components:
-  - Home.jsx
-  - Wishlist.jsx
-- They both have a component in common:
-  - Map.jsx (it connects to the Google Maps Embed API through the frontend)
+- In a different tab of your terminal, INSIDE THE PROJECT FOLDER, type "npm run migrate". This will install the database tables.
 
-_This is a student project that was created at [CodeOp](http://codeop.tech), a full stack development bootcamp in Barcelona._
+- Back in the MySQL tab, type "SHOW TABLES" and you'll see three tables:
+  - users: contains the users who have registered in the app.
+  - parks: contains the parks saved in the Wishlist.
+  - SequelizeMeta: since the backend is written using Sequelize, this table is automatically created and contains the migration files.
+
+VSCODE
+
+- Open the project in Visual Studio Code.
+- Create an ".env" file inside the project folder and write the following:
+
+DB_HOST=127.0.0.1
+DB_USER=root
+DB_NAME=parks
+DB_PASS=YOUR_MYSQL_PASSWORD
+SUPER_SECRET=shhhhhhh
+REACT_APP_GOOGLE_API_KEY=YOUR_GOOGLE_MAPS_API_KEY(\*)
+
+(\*) This app works with Google Maps API, so you'll need to get an API key if you don't already have one.
+
+- Create an ".env" file inside the client folder and write the following:
+
+VITE_GOOGLE_API_KEY=YOUR_GOOGLE_MAPS_API_KEY
+
+## Technologies
+
+### Database
+
+- MySQL
+
+### Backend
+
+- Node.js
+- Express
+- Sequelize
+
+### Frontend
+
+- React
+- Google Maps API
+- Material UI
+- CSS
+
+## File contents
+
+### Database
+
+- migrations:
+  20230831183540-create-park.js
+  20230831183811-create-user.js
+
+- models:
+  index.js
+  park.js
+  user.js
+
+### Backend
+
+app.js
+
+- routes:
+  auth.js
+  users.js
+  wishlist.js
+
+- guards:
+  parkShouldNotExist.js
+  userEmailShouldNotExist.js
+  userShouldBeLoggedIn.js
+
+- contexts:
+  AuthContext.js
+
+### Frontend
+
+- src:
+  App.jsx
+  main.jsx
+
+- pages:
+  Home.jsx
+  Login.jsx
+  Register.jsx
+  Wishlist.jsx
+
+- components:
+  GoogleMapComponent.jsx
+  Map.jsx
+  NavBar.jsx
+  RequireAuth.jsx
+
+- styles:
+  GoogleMapComponent.css
+  stylesheet.css
