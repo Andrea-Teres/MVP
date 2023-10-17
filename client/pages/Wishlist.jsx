@@ -23,7 +23,6 @@ import {
 } from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import HeartBrokenOutlinedIcon from "@mui/icons-material/HeartBrokenOutlined";
-import title from "../assets/my-wishlist.png";
 import NavBar from "../components/NavBar";
 
 import axios from "axios";
@@ -122,10 +121,9 @@ export default function Wishlist() {
     <div>
       <NavBar />
       <Container display="flex" maxWidth="lg" align="left">
-        {/* <Typography variant="h4" sx={{ mt: 5, mb: 2 }}>
-          Wishlist
-        </Typography> */}
-        <img src={title} alt="My Wishlist" className="title-image" />
+        <Typography variant="h3" sx={{ mt: 5, mb: 2 }}>
+          My Wishlist
+        </Typography>
         <Grid container spacing={2}>
           <Grid item xs={5}>
             <Paper>
