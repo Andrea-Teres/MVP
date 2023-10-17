@@ -1,34 +1,76 @@
-import "./App.css";
+import { useState, useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
-import Home from "../routes/Home";
-import Wishlist from "../routes/Wishlist";
+import Home from "../pages/Home";
+import Wishlist from "../pages/Wishlist";
+import Login from "/pages/Login";
+import Register from "/pages/Register";
+import AuthContext from "../contexts/AuthContext";
+import RequireAuth from "../components/RequireAuth";
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setUser(true);
+    }
+  }, []);
+
+  function login(data) {
+    if (data) {
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("email", data.email);
+    }
+    setUser(true);
+    console.log("login");
+  }
+
+  function logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("email");
+    setUser(false);
+    console.log("logout");
+  }
+
+  const authObject = {
+    user,
+    login,
+    logout,
+  };
   return (
-    <div>
-      <ul className="nav justify-content-end container-sm grid gap-3">
-        <li>
-          <Link to="/home">
-            <i
-              className="fa-solid fa-house"
-              style={{ color: "rgb(76, 10, 137)", padding: 20 }}
-            ></i>
-          </Link>
-        </li>
-        <li>
-          <Link to="/wishlist">
-            <i
-              className="fa-solid fa-star"
-              style={{ color: "rgb(76, 10, 137)", padding: 20 }}
-            ></i>
-          </Link>
-        </li>
+    <AuthContext.Provider value={authObject}>
+      <div>
         <Routes>
-          <Route path="/home" element={<Home />} />
-          <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/register" element={<Register />}></Route>
+          <Route
+            path="/"
+            element={
+              <RequireAuth>
+                <Home />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/home"
+            element={
+              <RequireAuth>
+                <Home />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/wishlist"
+            element={
+              <RequireAuth>
+                <Wishlist />
+              </RequireAuth>
+            }
+          />
         </Routes>
-      </ul>
-    </div>
+      </div>
+    </AuthContext.Provider>
   );
 }
 

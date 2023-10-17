@@ -1,0 +1,43 @@
+h3,
+h4,
+h5 {
+  color: rgb(231, 107, 24);
+}
+
+.error-message {
+  font-size: x-small;
+}
+
+.rating {
+  margin-right: 20px;
+  min-width: 90px;
+}
+
+.rating:hover {
+  background-color: #212529 !important;
+  cursor: default !important;
+}
+
+.background {
+  background-color: rgb(248, 240, 210);
+}
+
+.textfield {
+  background-color: white;
+  margin-bottom: 8px;
+}
+.logo-image {
+  width: 250px;
+}
+.logo-register {
+  width: 255px;
+  margin-top: 14px;
+}
+
+.title-image {
+  width: 200px;
+  margin-top: 50px;
+}
+.table-wrap {
+  display: flex;
+}
