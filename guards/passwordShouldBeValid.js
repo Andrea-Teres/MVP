@@ -7,7 +7,7 @@ function passwordShouldBeValid(req, res, next) {
     next();
   } else {
     res.status(400).send({
-      message: "Password is not valid. It must be at least 8 characters long.",
+      message: "* The password must be at least 8 characters long.",
     });
   }
 }

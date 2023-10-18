@@ -46,7 +46,7 @@ export default function Register() {
     } catch (error) {
       console.log(error);
       setData(error.response.data.message);
-      setError(error);
+      setError(error.response.data.message);
     }
   };
 
@@ -83,6 +83,7 @@ export default function Register() {
                   color="warning"
                   type="text"
                 />
+
                 <TextField
                   value={password}
                   onChange={handleChange}
@@ -93,6 +94,11 @@ export default function Register() {
                   color="warning"
                   type="password"
                 />
+                {error && (
+                  <Box align="left" sx={{ ml: 2 }}>
+                    <Typography sx={{ fontSize: "15px" }}>{error}</Typography>
+                  </Box>
+                )}
               </div>
               <Button
                 onClick={register}
@@ -107,14 +113,12 @@ export default function Register() {
             </Box>
           </Grid>
         </Grid>
-        {error && (
-          <Box sx={{ mt: 5 }}>
-            <Typography sx={{ fontSize: "20px" }}></Typography>
-            <Typography sx={{ fontSize: "20px" }}>
-              Are you a member? <Link to="/login">Log in.</Link>
-            </Typography>
-          </Box>
-        )}
+
+        <Box sx={{ mt: 5 }}>
+          <Typography sx={{ fontSize: "20px" }}>
+            Are you a member? <Link to="/login">Log in.</Link>
+          </Typography>
+        </Box>
       </Container>
     </div>
   );

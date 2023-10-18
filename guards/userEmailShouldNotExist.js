@@ -12,7 +12,7 @@ async function userEmailShouldNotExist(req, res, next) {
       next();
     } else
       res.status(400).send({
-        message: "This email already exists, please enter another one",
+        message: "* This email already exists.",
       });
   } catch (err) {
     res.status(500).send(err);

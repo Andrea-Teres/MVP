@@ -15,12 +15,12 @@ async function userEmailShouldBeValid(req, res, next) {
         next();
       } else {
         res.status(400).send({
-          message: "Email not valid, please enter another one",
+          message: "* Email not valid, please enter another one.",
         });
       }
     } else {
       res.status(400).send({
-        message: "Invalid email format",
+        message: "* Invalid email format.",
       });
     }
   } catch (err) {
