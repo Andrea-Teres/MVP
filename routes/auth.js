@@ -60,7 +60,7 @@ router.post("/login", async (req, res) => {
       var token = jwt.sign({ user_id }, supersecret);
       res.send({ message: "Login successful!", token, user_id, email });
     } else {
-      throw new Error("* This email does not exist.");
+      throw new Error("* Please enter a valid email.");
     }
   } catch (err) {
     res.status(400).send({ message: err.message });
