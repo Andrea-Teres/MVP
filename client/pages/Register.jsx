@@ -49,6 +49,7 @@ export default function Register() {
       setError(error);
     }
   };
+
   return (
     <div>
       <Container display="flex" maxWidth="sm" align="center">
@@ -108,9 +109,7 @@ export default function Register() {
         </Grid>
         {error && (
           <Box sx={{ mt: 5 }}>
-            <Typography sx={{ fontSize: "20px" }}>
-              Oops! Looks like this email already exists.
-            </Typography>
+            <Typography sx={{ fontSize: "20px" }}></Typography>
             <Typography sx={{ fontSize: "20px" }}>
               Are you a member? <Link to="/login">Log in.</Link>
             </Typography>

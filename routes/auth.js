@@ -8,27 +8,33 @@ const saltRounds = 10;
 
 const userEmailShouldNotExist = require("../guards/userEmailShouldNotExist");
 const userShouldBeLoggedIn = require("../guards/userShouldBeLoggedIn");
+const userEmailShouldBeValid = require("../guards/userEmailShouldBeValid");
 
 const supersecret = process.env.SUPER_SECRET;
 
 //REGISTER NEW USER
 
-router.post("/register", userEmailShouldNotExist, async (req, res) => {
-  const { email, password } = req.body;
+router.post(
+  "/register",
+  userEmailShouldNotExist,
+  userEmailShouldBeValid,
+  async (req, res) => {
+    const { email, password } = req.body;
 
-  try {
-    const hash = await bcrypt.hash(password, saltRounds);
+    try {
+      const hash = await bcrypt.hash(password, saltRounds);
 
-    const user = await models.User.create({
-      email,
-      password: hash,
-    });
-    var token = jwt.sign({ user_id: user.id }, supersecret);
-    res.send({ message: "New user created!", token, email });
-  } catch (err) {
-    res.status(400).send({ message: err.message });
+      const user = await models.User.create({
+        email,
+        password: hash,
+      });
+      var token = jwt.sign({ user_id: user.id }, supersecret);
+      res.send({ message: "New user created!", token, email });
+    } catch (err) {
+      res.status(400).send({ message: err.message });
+    }
   }
-});
+);
 
 //LOG IN WITH PRIVATE PASSWORD
 
@@ -69,19 +75,19 @@ router.get("/profile", userShouldBeLoggedIn, function (req, res, next) {
 
 // DELETE all users
 
-// router.delete("/", async (req, res) => {
-//   try {
-//     // Delete all events
-//     await models.User.destroy({
-//       where: {},
-//       truncate: true, // This ensures that the table is truncated, removing all rows
-//     });
+router.delete("/", async (req, res) => {
+  try {
+    // Delete all events
+    await models.User.destroy({
+      where: {},
+      truncate: true, // This ensures that the table is truncated, removing all rows
+    });
 
-//     res.send("All users deleted successfully");
-//   } catch (error) {
-//     console.error(error); // Log the error for debugging purposes
-//     res.status(500).send("Internal server error");
-//   }
-// });
+    res.send("All users deleted successfully");
+  } catch (error) {
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).send("Internal server error");
+  }
+});
 
 module.exports = router;

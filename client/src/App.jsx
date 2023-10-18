@@ -42,9 +42,6 @@ function App() {
   return (
     <AuthContext.Provider value={authObject}>
       <div>
-        <RequireAuth>
-          <NavBar />
-        </RequireAuth>
         <Routes>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>

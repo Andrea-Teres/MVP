@@ -119,6 +119,7 @@ export default function Wishlist() {
 
   return (
     <div>
+      <NavBar />
       <Container display="flex" maxWidth="lg" align="left">
         <Typography variant="h3" sx={{ mt: 5, mb: 2 }}>
           My Wishlist
