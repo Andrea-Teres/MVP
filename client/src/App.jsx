@@ -3,6 +3,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import Home from "../pages/Home";
 import Wishlist from "../pages/Wishlist";
 import Login from "/pages/Login";
+import NavBar from "../components/NavBar";
 import Register from "/pages/Register";
 import AuthContext from "../contexts/AuthContext";
 import RequireAuth from "../components/RequireAuth";
@@ -41,6 +42,9 @@ function App() {
   return (
     <AuthContext.Provider value={authObject}>
       <div>
+        <RequireAuth>
+          <NavBar />
+        </RequireAuth>
         <Routes>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>

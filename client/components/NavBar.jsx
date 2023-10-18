@@ -17,13 +17,6 @@ import header from "../assets/park-quest-logo-2.png";
 
 function NavBar() {
   const auth = useContext(AuthContext);
-  const { user } = useContext(AuthContext);
-
-  const getEmailDisplay = () => {
-    return user ? `Welcome ${user.email}!` : "Welcome Guest!";
-  };
-
-  const emailDisplay = getEmailDisplay();
 
   return (
     <div>
@@ -45,7 +38,7 @@ function NavBar() {
                 mr: 5,
               }}
             >
-              {emailDisplay}
+              {auth.user && `Welcome ${localStorage.email}`}
             </Typography>
             <Button
               variant="contained"

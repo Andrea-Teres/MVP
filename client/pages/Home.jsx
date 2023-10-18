@@ -93,7 +93,6 @@ export default function Home() {
 
   return (
     <div>
-      <NavBar />
       <Container maxWidth="lg" align="center">
         {error && <div className="error-message">{error}</div>}
         <Grid container spacing={2}>
