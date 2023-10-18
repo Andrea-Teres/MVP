@@ -21,17 +21,18 @@ router.post(
   userEmailShouldBeValid,
   passwordShouldBeValid,
   async (req, res) => {
-    const { email, password } = req.body;
+    const { username, email, password } = req.body;
 
     try {
       const hash = await bcrypt.hash(password, saltRounds);
 
       const user = await models.User.create({
+        username,
         email,
         password: hash,
       });
       var token = jwt.sign({ user_id: user.id }, supersecret);
-      res.send({ message: "New user created!", token, email });
+      res.send({ message: "New user created!", token, email, username });
     } catch (err) {
       res.status(400).send({ message: err.message });
     }
@@ -54,12 +55,12 @@ router.post("/login", async (req, res) => {
 
       const correctPassword = await bcrypt.compare(password, user.password);
 
-      if (!correctPassword) throw new Error("Incorrect password");
+      if (!correctPassword) throw new Error("* Incorrect password.");
 
       var token = jwt.sign({ user_id }, supersecret);
       res.send({ message: "Login successful!", token, user_id, email });
     } else {
-      throw new Error("User does not exist");
+      throw new Error("* This email does not exist.");
     }
   } catch (err) {
     res.status(400).send({ message: err.message });
