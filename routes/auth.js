@@ -9,6 +9,7 @@ const saltRounds = 10;
 const userEmailShouldNotExist = require("../guards/userEmailShouldNotExist");
 const userShouldBeLoggedIn = require("../guards/userShouldBeLoggedIn");
 const userEmailShouldBeValid = require("../guards/userEmailShouldBeValid");
+const passwordShouldBeValid = require("../guards/passwordShouldBeValid");
 
 const supersecret = process.env.SUPER_SECRET;
 
@@ -18,6 +19,7 @@ router.post(
   "/register",
   userEmailShouldNotExist,
   userEmailShouldBeValid,
+  passwordShouldBeValid,
   async (req, res) => {
     const { email, password } = req.body;
 
