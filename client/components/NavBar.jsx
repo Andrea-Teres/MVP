@@ -38,7 +38,7 @@ function NavBar() {
                 mr: 5,
               }}
             >
-              {auth.user && `Welcome ${localStorage.email}`}
+              {auth.user && `Welcome ${localStorage.username}!`}
             </Typography>
             <Button
               variant="contained"

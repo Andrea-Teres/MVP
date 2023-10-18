@@ -21,9 +21,10 @@ export default function Register() {
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
+    username: "",
   });
 
-  const { email, password } = credentials;
+  const { username, email, password } = credentials;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -73,6 +74,16 @@ export default function Register() {
               autoComplete="off"
             >
               <div>
+                <TextField
+                  value={username}
+                  onChange={handleChange}
+                  name="username"
+                  className="textfield"
+                  label="Name"
+                  variant="outlined"
+                  color="warning"
+                  type="text"
+                />
                 <TextField
                   value={email}
                   onChange={handleChange}

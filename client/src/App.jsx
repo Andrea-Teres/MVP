@@ -22,6 +22,7 @@ function App() {
     if (data) {
       localStorage.setItem("token", data.token);
       localStorage.setItem("email", data.email);
+      localStorage.setItem("username", data.username);
     }
     setUser(true);
     console.log("login");
@@ -30,6 +31,8 @@ function App() {
   function logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("email");
+    localStorage.removeItem("username");
+
     setUser(false);
     console.log("logout");
   }
