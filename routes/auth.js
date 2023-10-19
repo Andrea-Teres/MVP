@@ -7,10 +7,10 @@ var bcrypt = require("bcrypt");
 const saltRounds = 10;
 
 const userEmailShouldNotExist = require("../guards/userEmailShouldNotExist");
-const userShouldBeLoggedIn = require("../guards/userShouldBeLoggedIn");
 const userEmailShouldBeValid = require("../guards/userEmailShouldBeValid");
 const passwordShouldBeValid = require("../guards/passwordShouldBeValid");
 const usernameShouldBeValid = require("../guards/usernameShouldBeValid");
+const userMustExist = require("../guards/userMustExist");
 
 const supersecret = process.env.SUPER_SECRET;
 
@@ -69,15 +69,6 @@ router.post("/login", async (req, res) => {
   } catch (err) {
     res.status(400).send({ message: err.message });
   }
-});
-
-//ACCESS PRIVATE DATA
-
-router.get("/profile", userShouldBeLoggedIn, function (req, res, next) {
-  res.send({
-    message: "You are logged in. Here is your private data.",
-    user_id: req.user_id,
-  });
 });
 
 // DELETE all users
