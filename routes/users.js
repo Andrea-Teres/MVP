@@ -42,7 +42,7 @@ router.get(
   function (req, res, next) {
     res.send({
       message: "You are logged in. Here is your private data.",
-      user_id: req.user_id,
+      user: req.user,
     });
   }
 );

@@ -1,11 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const models = require("../models");
+const authenticateUser = require("../guards/authenticateUser");
 const parkShouldNotExist = require("../guards/parkShouldNotExist");
+const userShouldBeLoggedIn = require("../guards/userShouldBeLoggedIn");
 
 //GET all items from wishlist
 
-router.get("/", async function (req, res, next) {
+router.get("/", userShouldBeLoggedIn, async function (req, res, next) {
   try {
     const parks = await models.Park.findAll();
     res.send(parks);
@@ -16,26 +18,31 @@ router.get("/", async function (req, res, next) {
 
 //POST park into wishlist DB
 
-//AUTOMATICALLY SAVE ITEM IN FAVORITES AS WELL??
+router.post(
+  "/",
+  parkShouldNotExist,
+  userShouldBeLoggedIn,
+  async function (req, res, next) {
+    const { google_id, name, rating, address, image_url, latitude, longitude } =
+      req.body;
 
-router.post("/", parkShouldNotExist, async function (req, res, next) {
-  const { google_id, name, rating, address, image_url, latitude, longitude } =
-    req.body;
-  try {
-    const park = await models.Park.create({
-      google_id,
-      name,
-      rating,
-      address,
-      image_url,
-      latitude,
-      longitude,
-    });
-    res.send("Park added to wishlist!");
-  } catch (error) {
-    res.status(500).send({ message: error.message });
+    try {
+      const park = await models.Park.create({
+        google_id,
+        name,
+        rating,
+        address,
+        image_url,
+        latitude,
+        longitude,
+      });
+
+      res.send("Park added to wishlist!");
+    } catch (error) {
+      res.status(500).send({ message: "Error adding park to wishlist" });
+    }
   }
-});
+);
 
 // REMOVE one park from wishlist
 router.delete("/", async (req, res) => {

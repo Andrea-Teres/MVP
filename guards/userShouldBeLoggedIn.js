@@ -11,11 +11,11 @@ function userShouldBeLoggedIn(req, res, next) {
     res.status(401).send({ message: "please provide a token" });
   } else {
     jwt.verify(token, supersecret, async function (err, decoded) {
-      if (err) res.status(401).send({ message: err.message });
+      if (err) res.status(401).send({ message: "Error verifying token" });
       else {
         //everything is awesome
-        const user = await models.User.findByPk(decoded.user_id);
-        req.user_id = decoded.user_id;
+        const user = await models.User.findByPk(decoded.userId);
+        req.userId = decoded.userId;
         req.user = user;
         next();
       }
