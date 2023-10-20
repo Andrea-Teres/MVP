@@ -16,6 +16,8 @@ router.get("/", async function (req, res, next) {
 
 //POST park into wishlist DB
 
+//AUTOMATICALLY SAVE ITEM IN FAVORITES AS WELL??
+
 router.post("/", parkShouldNotExist, async function (req, res, next) {
   const { google_id, name, rating, address, image_url, latitude, longitude } =
     req.body;
