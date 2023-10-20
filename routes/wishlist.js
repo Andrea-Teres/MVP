@@ -7,7 +7,7 @@ const userShouldBeLoggedIn = require("../guards/userShouldBeLoggedIn");
 
 //GET all items from wishlist
 
-router.get("/", userShouldBeLoggedIn, async function (req, res, next) {
+router.get("/", async function (req, res, next) {
   try {
     const parks = await models.Park.findAll();
     res.send(parks);
@@ -18,31 +18,33 @@ router.get("/", userShouldBeLoggedIn, async function (req, res, next) {
 
 //POST park into wishlist DB
 
-router.post(
-  "/",
-  parkShouldNotExist,
-  userShouldBeLoggedIn,
-  async function (req, res, next) {
-    const { google_id, name, rating, address, image_url, latitude, longitude } =
-      req.body;
+router.post("/", parkShouldNotExist, async function (req, res, next) {
+  const { google_id, name, rating, address, image_url, latitude, longitude } =
+    req.body;
 
-    try {
-      const park = await models.Park.create({
-        google_id,
-        name,
-        rating,
-        address,
-        image_url,
-        latitude,
-        longitude,
-      });
+  try {
+    const park = await models.Park.create({
+      google_id,
+      name,
+      rating,
+      address,
+      image_url,
+      latitude,
+      longitude,
+    });
 
-      res.send("Park added to wishlist!");
-    } catch (error) {
-      res.status(500).send({ message: "Error adding park to wishlist" });
-    }
+    // const favorite = await models.Favorites.create({
+    //   userId: req.user.id,
+    //   parkId: park.id,
+    // });
+
+    // console.log(favorite && "FAVORITE");
+
+    res.send("Park added to wishlist!");
+  } catch (error) {
+    res.status(500).send({ message: "Error adding park to wishlist" });
   }
-);
+});
 
 // REMOVE one park from wishlist
 router.delete("/", async (req, res) => {
