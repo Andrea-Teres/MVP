@@ -37,9 +37,7 @@ function NavBar() {
                 color: "rgb(253, 242, 202)",
                 mr: 5,
               }}
-            >
-              {auth.user && `Welcome ${localStorage.username}!`}
-            </Typography>
+            ></Typography>
             <Button
               variant="contained"
               sx={{
