@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "../pages/Home";
 import Wishlist from "../pages/Wishlist";
+import Profile from "../pages/Profile";
 import Login from "/pages/Login";
-import NavBar from "../components/NavBar";
 import Register from "/pages/Register";
 import AuthContext from "../contexts/AuthContext";
 import RequireAuth from "../components/RequireAuth";
@@ -22,7 +22,6 @@ function App() {
     if (data) {
       localStorage.setItem("token", data.token);
       localStorage.setItem("email", data.email);
-      localStorage.setItem("username", data.username);
     }
     setUser(true);
     console.log("login");
@@ -31,7 +30,6 @@ function App() {
   function logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("email");
-    localStorage.removeItem("username");
 
     setUser(false);
     console.log("logout");
@@ -69,6 +67,14 @@ function App() {
             element={
               <RequireAuth>
                 <Wishlist />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <RequireAuth>
+                <Profile />
               </RequireAuth>
             }
           />

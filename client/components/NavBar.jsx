@@ -11,8 +11,8 @@ import {
   IconButton,
   Button,
 } from "@mui/material";
-import AttractionsOutlinedIcon from "@mui/icons-material/AttractionsOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import PersonIcon from "@mui/icons-material/Person";
 import header from "../assets/park-quest-logo-2.png";
 
 function NavBar() {
@@ -28,31 +28,11 @@ function NavBar() {
                 <img src={header} alt="Park Quest" className="logo-image" />
               </Link>
             </div>
-            <Typography sx={{ color: "rgb(253, 242, 202)", mr: 0.5, ml: 2 }}>
-              <AttractionsOutlinedIcon />
-            </Typography>
-            <Typography
-              component="div"
-              sx={{
-                color: "rgb(253, 242, 202)",
-                mr: 5,
-              }}
-            ></Typography>
-            <Button
-              variant="contained"
-              sx={{
-                color: "#960532",
-                backgroundColor: "#F8F0D3",
-                ":hover": {
-                  backgroundColor: "#960532",
-                  color: "#F8F0D3",
-                },
-                mr: 5,
-              }}
-              onClick={auth.logout}
-            >
-              Log out
-            </Button>
+            <Link to="/profile">
+              <IconButton sx={{ color: "rgb(253, 242, 202)", mr: 2, ml: 2 }}>
+                <PersonIcon />
+              </IconButton>
+            </Link>
 
             <Link to="/wishlist">
               <IconButton
@@ -63,6 +43,21 @@ function NavBar() {
                 <FavoriteIcon />
               </IconButton>
             </Link>
+            <Button
+              variant="contained"
+              sx={{
+                color: "#960532",
+                backgroundColor: "#F8F0D3",
+                ":hover": {
+                  backgroundColor: "#960532",
+                  color: "#F8F0D3",
+                },
+                mr: 2,
+              }}
+              onClick={auth.logout}
+            >
+              Log out
+            </Button>
           </Toolbar>
         </AppBar>
       </Box>
