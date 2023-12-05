@@ -11,7 +11,6 @@ const userEmailShouldBeValid = require("../guards/userEmailShouldBeValid");
 const passwordShouldBeValid = require("../guards/passwordShouldBeValid");
 const usernameShouldBeValid = require("../guards/usernameShouldBeValid");
 const userShouldBeLoggedIn = require("../guards/userShouldBeLoggedIn");
-const { v4: uuidv4 } = require("uuid");
 
 const supersecret = process.env.SUPER_SECRET;
 
@@ -29,12 +28,8 @@ router.post(
 
     try {
       const hash = await bcrypt.hash(password, saltRounds);
-      const privateId = uuidv4();
-      // Make it URL friendly
-      const encodedToken = encodeURIComponent(privateId);
 
       const user = await models.User.create({
-        privateId: encodedToken,
         username,
         email,
         password: hash,
@@ -67,7 +62,6 @@ router.post("/login", async (req, res) => {
       if (!correctPassword) throw new Error("* Incorrect password.");
 
       const token = jwt.sign({ userId: user_id }, supersecret);
-      console.log("Login token:", token);
       res.send({ message: "Login successful!", token, user_id, email });
     } else {
       throw new Error("* Please enter a valid email.");
@@ -78,6 +72,10 @@ router.post("/login", async (req, res) => {
 });
 
 router.get("/profile", userShouldBeLoggedIn, (req, res) => {
+  if (!req.user) {
+    return res.status(404).send({ message: "User not found" });
+  }
+
   res.send(req.user);
 });
 
