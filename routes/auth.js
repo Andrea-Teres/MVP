@@ -10,7 +10,8 @@ const userEmailShouldNotExist = require("../guards/userEmailShouldNotExist");
 const userEmailShouldBeValid = require("../guards/userEmailShouldBeValid");
 const passwordShouldBeValid = require("../guards/passwordShouldBeValid");
 const usernameShouldBeValid = require("../guards/usernameShouldBeValid");
-const userMustExist = require("../guards/userMustExist");
+const userShouldBeLoggedIn = require("../guards/userShouldBeLoggedIn");
+const { v4: uuidv4 } = require("uuid");
 
 const supersecret = process.env.SUPER_SECRET;
 
@@ -28,13 +29,17 @@ router.post(
 
     try {
       const hash = await bcrypt.hash(password, saltRounds);
+      const privateId = uuidv4();
+      // Make it URL friendly
+      const encodedToken = encodeURIComponent(privateId);
 
       const user = await models.User.create({
+        privateId: encodedToken,
         username,
         email,
         password: hash,
       });
-      var token = jwt.sign({ user_id: user.id }, supersecret);
+      const token = jwt.sign({ user_id: user.id }, supersecret);
       res.send({ message: "New user created!", token, email, username });
     } catch (err) {
       res.status(400).send({ message: err.message });
@@ -61,7 +66,8 @@ router.post("/login", async (req, res) => {
 
       if (!correctPassword) throw new Error("* Incorrect password.");
 
-      var token = jwt.sign({ user_id }, supersecret);
+      const token = jwt.sign({ userId: user_id }, supersecret);
+      console.log("Login token:", token);
       res.send({ message: "Login successful!", token, user_id, email });
     } else {
       throw new Error("* Please enter a valid email.");
@@ -69,6 +75,10 @@ router.post("/login", async (req, res) => {
   } catch (err) {
     res.status(400).send({ message: err.message });
   }
+});
+
+router.get("/profile", userShouldBeLoggedIn, (req, res) => {
+  res.send(req.user);
 });
 
 // DELETE all users

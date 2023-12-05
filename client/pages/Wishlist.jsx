@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
 import {
   GoogleMap,
   MarkerF,
@@ -52,7 +51,7 @@ export default function Wishlist() {
   const loadWishlist = async () => {
     try {
       const response = await axios.get("/api/wishlist");
-      const data = response.data; // Assuming the response format is an array of wishlist items
+      const data = response.data;
       setWishlist(data);
     } catch (err) {
       console.log(err);
