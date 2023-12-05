@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const models = require("../models");
+const authenticateUser = require("../guards/authenticateUser");
 const parkShouldNotExist = require("../guards/parkShouldNotExist");
+const userShouldBeLoggedIn = require("../guards/userShouldBeLoggedIn");
 
 //GET all items from wishlist
 
@@ -15,11 +17,11 @@ router.get("/", async function (req, res, next) {
 });
 
 //POST park into wishlist DB
-//ADD GUARD = the park mustn't exist
 
 router.post("/", parkShouldNotExist, async function (req, res, next) {
   const { google_id, name, rating, address, image_url, latitude, longitude } =
     req.body;
+
   try {
     const park = await models.Park.create({
       google_id,
@@ -30,9 +32,17 @@ router.post("/", parkShouldNotExist, async function (req, res, next) {
       latitude,
       longitude,
     });
+
+    // const favorite = await models.Favorites.create({
+    //   userId: req.user.id,
+    //   parkId: park.id,
+    // });
+
+    // console.log(favorite && "FAVORITE");
+
     res.send("Park added to wishlist!");
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    res.status(500).send({ message: "Error adding park to wishlist" });
   }
 });
 

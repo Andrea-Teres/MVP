@@ -7,28 +7,52 @@ var bcrypt = require("bcrypt");
 const saltRounds = 10;
 
 const userEmailShouldNotExist = require("../guards/userEmailShouldNotExist");
+const userEmailShouldBeValid = require("../guards/userEmailShouldBeValid");
+const passwordShouldBeValid = require("../guards/passwordShouldBeValid");
+const usernameShouldBeValid = require("../guards/usernameShouldBeValid");
 const userShouldBeLoggedIn = require("../guards/userShouldBeLoggedIn");
 
 const supersecret = process.env.SUPER_SECRET;
 
 //REGISTER NEW USER
 
-router.post("/register", userEmailShouldNotExist, async (req, res) => {
-  const { email, password } = req.body;
+router.post(
+  "/register",
+  userEmailShouldNotExist,
+  userEmailShouldBeValid,
+  passwordShouldBeValid,
+  usernameShouldBeValid,
 
-  try {
-    const hash = await bcrypt.hash(password, saltRounds);
+  async (req, res) => {
+    const { username, email, password } = req.body;
 
-    const user = await models.User.create({
-      email,
-      password: hash,
-    });
-    var token = jwt.sign({ user_id: user.id }, supersecret);
-    res.send({ message: "New user created!", token, email });
-  } catch (err) {
-    res.status(400).send({ message: err.message });
+    try {
+      const hash = await bcrypt.hash(password, saltRounds);
+
+      const user = await models.User.create({
+        username,
+        email,
+        password: hash,
+      });
+
+      const token = jwt.sign({ userId: user.id }, supersecret);
+
+      // Fetch the user again to ensure you have the latest data
+      const updatedUser = await models.User.findByPk(user.id);
+
+      res.send({
+        message: "New user created!",
+        token,
+        email,
+        username,
+        user: updatedUser,
+      });
+    } catch (err) {
+      res.status(400).send({ message: err.message });
+      console.log(err);
+    }
   }
-});
+);
 
 //LOG IN WITH PRIVATE PASSWORD
 
@@ -46,25 +70,24 @@ router.post("/login", async (req, res) => {
 
       const correctPassword = await bcrypt.compare(password, user.password);
 
-      if (!correctPassword) throw new Error("Incorrect password");
+      if (!correctPassword) throw new Error("* Incorrect password.");
 
-      var token = jwt.sign({ user_id }, supersecret);
+      const token = jwt.sign({ userId: user_id }, supersecret);
       res.send({ message: "Login successful!", token, user_id, email });
     } else {
-      throw new Error("User does not exist");
+      throw new Error("* Please enter a valid email.");
     }
   } catch (err) {
     res.status(400).send({ message: err.message });
   }
 });
 
-//ACCESS PRIVATE DATA
+router.get("/profile", userShouldBeLoggedIn, (req, res) => {
+  if (!req.user) {
+    return res.status(404).send({ message: "User not found" });
+  }
 
-router.get("/profile", userShouldBeLoggedIn, function (req, res, next) {
-  res.send({
-    message: "You are logged in. Here is your private data.",
-    user_id: req.user_id,
-  });
+  res.send(req.user);
 });
 
 // DELETE all users

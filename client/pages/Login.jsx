@@ -32,9 +32,7 @@ export default function Login() {
         method: "POST",
         data: credentials,
       });
-      // console.log("about to login");
       auth.login(data);
-      // console.log(auth);
       console.log(data);
       setData(data.message);
       setError(null);
@@ -42,7 +40,7 @@ export default function Login() {
     } catch (error) {
       console.log(error);
       setData("Login failed, please try again");
-      setError(error);
+      setError(error.response.data.message);
     }
   };
 
@@ -82,6 +80,9 @@ export default function Login() {
             type="password"
           />
         </Box>
+        <Box align="left" sx={{ ml: 16, mb: 3 }}>
+          {error && <Typography sx={{ fontSize: "15px" }}>{error}</Typography>}
+        </Box>
         <Button
           type="submit"
           variant="contained"
@@ -90,16 +91,13 @@ export default function Login() {
         >
           Log in
         </Button>
-        {error && (
-          <Box sx={{ mt: 2 }}>
-            <Typography sx={{ fontSize: "20px" }}>
-              Not a member? <Link to="/register">Sign up!</Link>
-            </Typography>
-          </Box>
-        )}
-      </Container>
 
-      {/* Link to Sign up page */}
+        <Box sx={{ mt: 2 }}>
+          <Typography sx={{ fontSize: "20px" }}>
+            Not a member? <Link to="/register">Sign up!</Link>
+          </Typography>
+        </Box>
+      </Container>
     </div>
   );
 }

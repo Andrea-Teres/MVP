@@ -21,9 +21,10 @@ export default function Register() {
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
+    username: "",
   });
 
-  const { email, password } = credentials;
+  const { username, email, password } = credentials;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,9 +47,10 @@ export default function Register() {
     } catch (error) {
       console.log(error);
       setData(error.response.data.message);
-      setError(error);
+      setError(error.response.data.message);
     }
   };
+
   return (
     <div>
       <Container display="flex" maxWidth="sm" align="center">
@@ -73,6 +75,16 @@ export default function Register() {
             >
               <div>
                 <TextField
+                  value={username}
+                  onChange={handleChange}
+                  name="username"
+                  className="textfield"
+                  label="Name"
+                  variant="outlined"
+                  color="warning"
+                  type="text"
+                />
+                <TextField
                   value={email}
                   onChange={handleChange}
                   name="email"
@@ -82,6 +94,7 @@ export default function Register() {
                   color="warning"
                   type="text"
                 />
+
                 <TextField
                   value={password}
                   onChange={handleChange}
@@ -92,6 +105,11 @@ export default function Register() {
                   color="warning"
                   type="password"
                 />
+                {error && (
+                  <Box align="left" sx={{ ml: 2 }}>
+                    <Typography sx={{ fontSize: "15px" }}>{error}</Typography>
+                  </Box>
+                )}
               </div>
               <Button
                 onClick={register}
@@ -106,16 +124,12 @@ export default function Register() {
             </Box>
           </Grid>
         </Grid>
-        {error && (
-          <Box sx={{ mt: 5 }}>
-            <Typography sx={{ fontSize: "20px" }}>
-              Oops! Looks like this email already exists.
-            </Typography>
-            <Typography sx={{ fontSize: "20px" }}>
-              Are you a member? <Link to="/login">Log in.</Link>
-            </Typography>
-          </Box>
-        )}
+
+        <Box sx={{ mt: 5 }}>
+          <Typography sx={{ fontSize: "20px" }}>
+            Are you a member? <Link to="/login">Log in.</Link>
+          </Typography>
+        </Box>
       </Container>
     </div>
   );

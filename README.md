@@ -3,6 +3,7 @@
 ## Introduction
 
 Welcome to Park Quest! The app that allows you to search and save your favorite theme parks around the world!
+(\*) Currently working on profile-page branch.
 
 ## How you can run it
 
