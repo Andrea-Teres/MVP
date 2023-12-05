@@ -47,7 +47,7 @@ export default function Profile() {
       <Container display="flex" maxWidth="lg" align="left">
         <Typography variant="h3" sx={{ mt: 5, mb: 2 }}>
           <AttractionsOutlinedIcon fontSize="inherit" sx={{ mb: 2, mr: 1 }} />
-          Welcome, {user && user.username}
+          Welcome, {user && user.username}!
         </Typography>
       </Container>
     </div>

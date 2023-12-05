@@ -16,7 +16,6 @@ function userShouldBeLoggedIn(req, res, next) {
         res.status(401).send({ message: "Error verifying token" });
       } else {
         const user = await models.User.findByPk(decoded.userId);
-        console.log("User in middleware:", user);
         req.userId = decoded.userId;
         req.user = user;
         next();

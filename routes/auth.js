@@ -34,8 +34,19 @@ router.post(
         email,
         password: hash,
       });
-      const token = jwt.sign({ user_id: user.id }, supersecret);
-      res.send({ message: "New user created!", token, email, username });
+
+      const token = jwt.sign({ userId: user.id }, supersecret);
+
+      // Fetch the user again to ensure you have the latest data
+      const updatedUser = await models.User.findByPk(user.id);
+
+      res.send({
+        message: "New user created!",
+        token,
+        email,
+        username,
+        user: updatedUser,
+      });
     } catch (err) {
       res.status(400).send({ message: err.message });
       console.log(err);
